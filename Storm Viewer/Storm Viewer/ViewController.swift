@@ -16,6 +16,7 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         
         title = "Storm Viewer"
+        // Make main title large
         navigationController?.navigationBar.prefersLargeTitles = true
         
         // Use file manager to get the images
