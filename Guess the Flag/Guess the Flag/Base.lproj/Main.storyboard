@@ -40,12 +40,20 @@
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lbG-Hv-Lua"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30X-Hj-l86">
+                                <rect key="frame" x="160" y="573" width="73" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="EQT-ib-7zo" firstAttribute="top" secondItem="Brj-lb-NY5" secondAttribute="bottom" constant="30" id="CU7-wA-pqf"/>
                             <constraint firstItem="xc1-tT-T90" firstAttribute="centerX" secondItem="EQT-ib-7zo" secondAttribute="centerX" id="FdS-gX-SM1"/>
+                            <constraint firstItem="30X-Hj-l86" firstAttribute="centerX" secondItem="xc1-tT-T90" secondAttribute="centerX" id="G7a-FB-HEb"/>
+                            <constraint firstItem="30X-Hj-l86" firstAttribute="top" secondItem="xc1-tT-T90" secondAttribute="bottom" constant="71" id="Gbc-SL-6MU"/>
                             <constraint firstItem="EQT-ib-7zo" firstAttribute="centerX" secondItem="Brj-lb-NY5" secondAttribute="centerX" id="XHX-sP-bcg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="Brj-lb-NY5" secondAttribute="top" constant="3" id="bSJ-pq-eVd"/>
                             <constraint firstItem="Brj-lb-NY5" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="op0-dt-q71"/>
@@ -57,6 +65,7 @@
                         <outlet property="button1" destination="Brj-lb-NY5" id="Toc-Zm-0yY"/>
                         <outlet property="button2" destination="EQT-ib-7zo" id="qBm-pb-COM"/>
                         <outlet property="button3" destination="xc1-tT-T90" id="mnf-qQ-QXs"/>
+                        <outlet property="scoreLabel" destination="30X-Hj-l86" id="7Ns-BR-5xh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

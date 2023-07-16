@@ -14,10 +14,16 @@ class ViewController: UIViewController {
     @IBOutlet var button2: UIButton!
     @IBOutlet var button3: UIButton!
     
+    // Score label
+    @IBOutlet var scoreLabel: UILabel!
+    
     // Variables
     var countries = [String]()
     var score = 0
     var correctAnswer = 0
+    
+    // Challenge variables
+    var questionsAsked = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +46,7 @@ class ViewController: UIViewController {
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
         
+        // Start the game
         askQuestion()
     }
 
@@ -55,10 +62,15 @@ class ViewController: UIViewController {
         button2.setImage(UIImage(named: countries[1]), for: .normal)
         button3.setImage(UIImage(named: countries[2]), for: .normal)
         
-        // Uppercase the answer and use as a title
+
+        // Use flag to guess as title
         title = countries[correctAnswer].uppercased()
+        
+        // Update scoreLabel to show country to guess
+        scoreLabel.text = "Score: \(score)"
     }
     
+    // Determine whether answer is right or wrong when flag is tapped
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
         
@@ -70,13 +82,22 @@ class ViewController: UIViewController {
             score -= 1
         }
         
-        // Create alert to be displayed after each round
-        let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
-        present(ac, animated: true)
+        questionsAsked += 1
+        
+        // Check if game should end
+        if questionsAsked == 10 {
+            // Present final alert and reset score
+            let ac = UIAlertController(title: "You have reached 10 questions", message: "Your final score is \(score)", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Retry?", style: .default, handler: nil))
+            present(ac, animated: true)
+            score = 0
+            questionsAsked = 0
+        } else {
+            // Create alert to be displayed after each round
+            let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
+            present(ac, animated: true)
+        }
     }
-    
-    
-    
 }
 
