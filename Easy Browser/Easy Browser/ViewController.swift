@@ -8,18 +8,31 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
 
     
     override func loadView() {
+        // Create instance of WKWebView class
         webView = WKWebView()
+        
+        // Modify navigation delegate
         webView.navigationDelegate = self
+        
+        // Make it the ViewController's view
         view = webView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        // Assign value to URL
+        let url = URL(string: "https://www.hackingwithswift.com")!
+        
+        // Load the URL
+        webView.load(URLRequest(url: url))
+        
+        // Enable gestures for easy-of-use
+        webView.allowsBackForwardNavigationGestures = true
     }
 
 
