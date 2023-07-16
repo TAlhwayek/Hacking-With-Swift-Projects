@@ -93,7 +93,7 @@ class ViewController: UIViewController {
         
         // Check if game should end
         if questionsAsked == 10 {
-            // Present final alert and reset score
+            // Present the final alert and reset score
             message = "Your final score is \(score)"
             buttonTitle = "Play again?"
             score = 0
