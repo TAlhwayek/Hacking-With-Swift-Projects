@@ -73,31 +73,37 @@ class ViewController: UIViewController {
     // Determine whether answer is right or wrong when flag is tapped
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
+        var message: String = ""
+        var buttonTitle: String = "Continue"
         
+        // Check if answer is correct
+        // Also change the alert's title and message depending on the outcome
         if sender.tag == correctAnswer {
             title = "Correct"
             score += 1
+            message = "Your score is \(score)"
         } else {
-            title = "Wrong"
+            title = "Incorrect"
             score -= 1
+            message = "That's the flag of \(countries[sender.tag].uppercased())"
         }
         
+        // Increment questions asked counter
         questionsAsked += 1
         
         // Check if game should end
         if questionsAsked == 10 {
             // Present final alert and reset score
-            let ac = UIAlertController(title: "You have reached 10 questions", message: "Your final score is \(score)", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Retry?", style: .default, handler: nil))
-            present(ac, animated: true)
+            message = "Your final score is \(score)"
+            buttonTitle = "Play again?"
             score = 0
             questionsAsked = 0
-        } else {
-            // Create alert to be displayed after each round
-            let ac = UIAlertController(title: title, message: "Your score is \(score)", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
-            present(ac, animated: true)
         }
+        
+        // Present alert
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: askQuestion))
+        present(ac, animated: true)
     }
 }
 
