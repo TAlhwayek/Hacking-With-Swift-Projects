@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     // Variables
     var countries = [String]()
     var scores = 0
+    var correctAnswer = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +45,9 @@ class ViewController: UIViewController {
 
 
     func askQuestion() {
+        // Shuffle countries array to get random flags
+        countries.shuffle()
+        
         // Populate images with randomly selected countries
         button1.setImage(UIImage(named: countries[0]), for: .normal)
         button2.setImage(UIImage(named: countries[1]), for: .normal)
