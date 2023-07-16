@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  Social Media
+//  Storm Viewer
 //
-//  Created by Tony Alhwayek on 7/16/23.
+//  Created by Tony Alhwayek on 7/15/23.
 //
 
 import UIKit
