@@ -11,7 +11,8 @@ import WebKit
 class ViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     var progressView: UIProgressView!
-
+    // List of allowed websites
+    var websites = ["apple.com", "hackingwithswift.com", "google.com"]
     
     override func loadView() {
         // Create instance of WKWebView class
@@ -35,6 +36,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
         // Add refresh button
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
         
+        // Add back and forward buttons
+        let goBackButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(goBackAction))
+        let goForwardButton = UIBarButtonItem(title: "Forward", style: .plain, target: self, action: #selector(goForwardAction))
+        
         // Create new UIProgressView instance
         progressView = UIProgressView(progressViewStyle: .default)
         // Fully fit content (take as much space as needed)
@@ -43,7 +48,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let progressButton = UIBarButtonItem(customView: progressView)
         
         // Add items to toolbar and make it visible
-        toolbarItems = [progressButton, spacer, refresh]
+        toolbarItems = [goBackButton, progressButton, spacer, refresh, goForwardButton]
         navigationController?.isToolbarHidden = false
         
         // Create an observer to track WebView's progress
@@ -51,7 +56,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
         // Assign value to URL
-        let url = URL(string: "https://www.hackingwithswift.com")!
+        let url = URL(string: "https://" + websites[0])!
         
         // Load the URL
         webView.load(URLRequest(url: url))
@@ -61,11 +66,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     @objc func openTapped() {
-        // Add websites
+        // Add UIAlertController
         let ac = UIAlertController(title: "Open page...", message: nil, preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "apple.com", style: .default, handler: openPage))
-        ac.addAction(UIAlertAction(title: "hackingwithswift.com", style: .default, handler: openPage))
-        ac.addAction(UIAlertAction(title: "github.com/TAlhwayek", style: .default, handler: openPage))
+         
+        // Add a list of websites
+        for website in websites {
+            ac.addAction(UIAlertAction(title: website, style: .default, handler: openPage))
+        }
             
         // Dedicated cancel button
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -89,9 +96,51 @@ class ViewController: UIViewController, WKNavigationDelegate {
         title = webView.title
     }
 
+    // This allows the progress bar to fill up
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "estimatedProgress" {
             progressView.progress = Float(webView.estimatedProgress)
+        }
+    }
+    
+    // Decide whether we want to allow a navigation to happen
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        let url = navigationAction.request.url
+        
+        // Get domain
+        if let host = url?.host {
+            print(host)
+            // Loop through safelist
+            for website in websites {
+                // Check if each safe website exists in visisted url
+                // i.e check if apple.com, hackingwithswift.com, etc exist in visited website
+                if host.contains(website) {
+                    // Allow loading
+                    decisionHandler(.allow)
+                    return
+                }
+            }
+        }
+        // If the "if let" fails, or if website is not safelisted
+        // Present an alert and disallow loading
+        // For some reason this (the alert) is popping up on approved websites
+        let ac = UIAlertController(title: "Website access is blocked", message: "This website is not approved", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Proceed", style: .default, handler: nil))
+                present(ac, animated: true)
+        decisionHandler(.cancel)
+    }
+    
+    // Go back funtionality
+    @objc func goBackAction() {
+        if webView.canGoBack {
+            webView.goBack()
+        }
+    }
+
+    // Go forward functionality
+    @objc func goForwardAction() {
+        if webView.canGoForward {
+            webView.goForward()
         }
     }
 }
