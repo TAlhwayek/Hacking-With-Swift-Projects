@@ -10,6 +10,7 @@ import WebKit
 
 class ViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
+    var progressView: UIProgressView!
 
     
     override func loadView() {
@@ -22,11 +23,32 @@ class ViewController: UIViewController, WKNavigationDelegate {
         // Make it the ViewController's view
         view = webView
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Add right-side navigation bar item
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Open", style: .plain, target: self, action: #selector(openTapped))
+        
+        // Create toolbar
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        // Add refresh button
+        let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
+        
+        // Create new UIProgressView instance
+        progressView = UIProgressView(progressViewStyle: .default)
+        // Fully fit content (take as much space as needed)
+        progressView.sizeToFit()
+        // Define the progress button
+        let progressButton = UIBarButtonItem(customView: progressView)
+        
+        // Add items to toolbar and make it visible
+        toolbarItems = [progressButton, spacer, refresh]
+        navigationController?.isToolbarHidden = false
+        
+        // Create an observer to track WebView's progress
+        // This makes the progress bar actually contain a value
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
         // Assign value to URL
         let url = URL(string: "https://www.hackingwithswift.com")!
@@ -54,10 +76,23 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     func openPage(action: UIAlertAction) {
-        let url = URL(string: "https://" + action.title!)!
+        // Guard functionality to avoid any headaches
+        guard let actionTitle = action.title else { return }
+        guard let url =  URL(string: "https://" + actionTitle) else { return }
+        
+        // Load the requested URL
         webView.load(URLRequest(url: url))
     }
 
+    // Add title to view
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        title = webView.title
+    }
 
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProgress" {
+            progressView.progress = Float(webView.estimatedProgress)
+        }
+    }
 }
 
