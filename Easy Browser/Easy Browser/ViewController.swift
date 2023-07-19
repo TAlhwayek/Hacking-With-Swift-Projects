@@ -124,12 +124,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
         // If the "if let" fails, or if website is not safelisted
         // Present an alert and disallow loading
         // For some reason this (the alert) is popping up on approved websites
+        // Need to fix but I don't know how to
         let ac = UIAlertController(title: "Website access is blocked", message: "This website is not approved", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Proceed", style: .default, handler: nil))
                 present(ac, animated: true)
+        // Cancel loading a website if it's blocked
         decisionHandler(.cancel)
     }
     
+    
+    // These are part of one of the challenges
     // Go back funtionality
     @objc func goBackAction() {
         if webView.canGoBack {
