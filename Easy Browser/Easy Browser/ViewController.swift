@@ -5,6 +5,7 @@
 //  Created by Tony Alhwayek on 7/16/23.
 //
 
+
 import UIKit
 import WebKit
 
@@ -29,7 +30,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
         
         // Add right-side navigation bar item
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Open", style: .plain, target: self, action: #selector(openTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Go to", style: .plain, target: self, action: #selector(openTapped))
         
         // Create toolbar
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -67,7 +68,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     @objc func openTapped() {
         // Add UIAlertController
-        let ac = UIAlertController(title: "Open page...", message: nil, preferredStyle: .actionSheet)
+        let ac = UIAlertController(title: "Choose a website", message: nil, preferredStyle: .actionSheet)
          
         // Add a list of websites
         for website in websites {
