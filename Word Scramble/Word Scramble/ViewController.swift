@@ -85,7 +85,7 @@ class ViewController: UITableViewController {
                     if longerThanThreeLetters(word: lowerAnswer) {
                         if isGivenWord(word: lowerAnswer){
                             // Add word to usedWords[0]
-                            usedWords.insert(answer, at: 0)
+                            usedWords.insert(lowerAnswer, at: 0)
                             
                             // Insert new row at [0, 0]
                             let indexPath = IndexPath(row: 0, section: 0)
