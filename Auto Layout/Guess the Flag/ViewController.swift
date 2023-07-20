@@ -36,6 +36,11 @@ class ViewController: UIViewController {
         button2.layer.borderWidth = 1
         button3.layer.borderWidth = 1
         
+        // Make borders touch the images
+        button1.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        button2.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        button3.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
         // Change border colors to light gray
         button1.layer.borderColor = UIColor.lightGray.cgColor
         button2.layer.borderColor = UIColor.lightGray.cgColor
@@ -57,10 +62,7 @@ class ViewController: UIViewController {
         button2.setImage(UIImage(named: countries[1]), for: .normal)
         button3.setImage(UIImage(named: countries[2]), for: .normal)
         
-        button1.imageView?.contentMode = .scaleAspectFit
-        button2.imageView?.contentMode = .scaleAspectFit
-        button3.imageView?.contentMode = .scaleAspectFit
-        
+
         // Use flag to guess as title
         title = countries[correctAnswer].uppercased()
         
