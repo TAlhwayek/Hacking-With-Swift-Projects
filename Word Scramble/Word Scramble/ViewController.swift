@@ -98,30 +98,21 @@ class ViewController: UITableViewController {
                             // Return to avoid showing alert controller
                             return
                         } else {
-                            errorTitle = "You are using the given word"
-                            errorMessage = "Don't do that"
+                            showErrorMessage(errorTitle: "You are using the given word", errorMessage: "Don't do that")
                         }
                     } else {
-                        errorTitle = "Your word is shorter than 3 letters"
-                        errorMessage = "Please use a longer word"
+                        showErrorMessage(errorTitle: "Your word is shorter than 3 letters", errorMessage: "Please use a longer word")
                     }
                 } else {
-                    errorTitle = "Word not recognized"
-                    errorMessage = "You can't just make them up"
+                    showErrorMessage(errorTitle: "Word not recognized", errorMessage: "You can't just make them up")
                 }
             } else {
-                errorTitle = "Word already used"
-                errorMessage = "Be more original"
+                showErrorMessage(errorTitle: "Word already used", errorMessage: "Be more original")
             }
         } else {
             guard let title = title else { return }
-            errorTitle = "Word not possible"
-            errorMessage = "Word cannot be spelled using \(title.lowercased())"
+            showErrorMessage(errorTitle: "Word not possible", errorMessage: "Word cannot be spelled using \(title.lowercased())")
         }
-        // Show error to user using an alert controller
-        let ac = UIAlertController(title: errorTitle, message: errorMessage, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
     }
     
     // Loop over all letters
@@ -157,7 +148,7 @@ class ViewController: UITableViewController {
         return misspelledRange.location == NSNotFound
     }
     
-    // For challenge
+    // For challenge #1
     // Disallows word if it's shorter than 3 letters
     func longerThanThreeLetters(word: String) -> Bool {
         if word.count >= 3 {
@@ -166,13 +157,22 @@ class ViewController: UITableViewController {
             return false
         }
     }
-    
+    // Also for challenge #1
     func isGivenWord(word: String) -> Bool {
         if word != title {
             return true
         } else {
             return false
         }
+    }
+    
+    // For challenge #2
+    // Handle error alert
+    func showErrorMessage(errorTitle: String, errorMessage: String) {
+        // Show error to user using an alert controller
+        let ac = UIAlertController(title: errorTitle, message: errorMessage, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
     }
 }
 
