@@ -18,8 +18,10 @@ class ViewController: UITableViewController {
       
         // Add a nav bar button for prompting the user
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promptForAnswer))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(startGame))
         
+        // Challenge #3
+        // Add a left-side nav bar button that restarts the game
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(startGame))
         
         // Get words from provided text file
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
@@ -31,6 +33,7 @@ class ViewController: UITableViewController {
         if allWords.isEmpty {
             allWords = ["NO WORDS WERE FOUND"]
         }
+        // Start the game
         startGame()
     }
 
@@ -78,7 +81,7 @@ class ViewController: UITableViewController {
     func submit (_ answer: String) {
         let lowerAnswer = answer.lowercased()
         
-        // If all checks pass
+        // Check word
         if isPossible(word: lowerAnswer) {
             if isOriginal(word: lowerAnswer) {
                 if isReal(word: lowerAnswer) {
