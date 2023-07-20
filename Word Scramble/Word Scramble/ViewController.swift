@@ -85,16 +85,26 @@ class ViewController: UITableViewController {
         if isPossible(word: lowerAnswer) {
             if isOriginal(word: lowerAnswer) {
                 if isReal(word: lowerAnswer) {
-                    // Add word to usedWords[0]
-                    usedWords.insert(answer, at: 0)
-                    
-                    // Insert new row at [0, 0]
-                    let indexPath = IndexPath(row: 0, section: 0)
-                    // Add new row with animation
-                    tableView.insertRows(at: [indexPath], with: .automatic)
-                    
-                    // Return to avoid showing alert controller
-                    return
+                    if longerThanThreeLetters(word: lowerAnswer) {
+                        if isGivenWord(word: lowerAnswer){
+                            // Add word to usedWords[0]
+                            usedWords.insert(answer, at: 0)
+                            
+                            // Insert new row at [0, 0]
+                            let indexPath = IndexPath(row: 0, section: 0)
+                            // Add new row with animation
+                            tableView.insertRows(at: [indexPath], with: .automatic)
+                            
+                            // Return to avoid showing alert controller
+                            return
+                        } else {
+                            errorTitle = "You are using the given word"
+                            errorMessage = "Don't do that"
+                        }
+                    } else {
+                        errorTitle = "Your word is shorter than 3 letters"
+                        errorMessage = "Please use a longer word"
+                    }
                 } else {
                     errorTitle = "Word not recognized"
                     errorMessage = "You can't just make them up"
@@ -145,6 +155,24 @@ class ViewController: UITableViewController {
         // Return true if not misspelling was found
         // NSNotFound signifies that no misspelling was found
         return misspelledRange.location == NSNotFound
+    }
+    
+    // For challenge
+    // Disallows word if it's shorter than 3 letters
+    func longerThanThreeLetters(word: String) -> Bool {
+        if word.count >= 3 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func isGivenWord(word: String) -> Bool {
+        if word != title {
+            return true
+        } else {
+            return false
+        }
     }
 }
 
