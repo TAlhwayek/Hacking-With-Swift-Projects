@@ -110,7 +110,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         // Get domain
         if let host = url?.host {
-            print(host)
+        //    print(host)
             // Loop through safelist
             for website in websites {
                 // Check if each safe website exists in visisted url
@@ -128,7 +128,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         // Need to fix but I don't know how to
         let ac = UIAlertController(title: "Website access is blocked", message: "This website is not approved", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Proceed", style: .default, handler: nil))
-                present(ac, animated: true)
+        present(ac, animated: true)
         // Cancel loading a website if it's blocked
         decisionHandler(.cancel)
     }
