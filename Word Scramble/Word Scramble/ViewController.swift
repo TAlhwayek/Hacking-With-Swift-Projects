@@ -18,6 +18,7 @@ class ViewController: UITableViewController {
       
         // Add a nav bar button for prompting the user
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promptForAnswer))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(startGame))
         
         
         // Get words from provided text file
@@ -33,7 +34,7 @@ class ViewController: UITableViewController {
         startGame()
     }
 
-    func startGame() {
+    @objc func startGame() {
         // Set title as random word from the array
         title = allWords.randomElement()
         // Clean up used words array
@@ -76,10 +77,6 @@ class ViewController: UITableViewController {
     // Then adds word to usedWords
     func submit (_ answer: String) {
         let lowerAnswer = answer.lowercased()
-        
-        // To show why the user's word is incorrect
-        let errorTitle: String
-        let errorMessage: String
         
         // If all checks pass
         if isPossible(word: lowerAnswer) {
