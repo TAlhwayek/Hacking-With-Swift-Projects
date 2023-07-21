@@ -58,6 +58,8 @@ class ViewController: UITableViewController {
             // Get data from json and put in array
             petitions = jsonPetitions.results
             // For challenge 2
+            // Populate filteredPetitions since it is the one being displayed
+            // petitions just acts as a 'database' right now
             filteredPetitions = petitions
             tableView.reloadData()
         }
