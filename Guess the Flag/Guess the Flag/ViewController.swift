@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    // Button outlets
+    // Button (flag) outlets
     @IBOutlet var button1: UIButton!
     @IBOutlet var button2: UIButton!
     @IBOutlet var button3: UIButton!
