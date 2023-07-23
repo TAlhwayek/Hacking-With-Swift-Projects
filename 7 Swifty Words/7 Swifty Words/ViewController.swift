@@ -26,6 +26,10 @@ class ViewController: UIViewController {
     }
     var level = 1
     
+    // For challenge #3
+    // To replace using score to check for completed level
+    var correctGuesses = 0
+    
     // Building the entire UI using code
     override func loadView() {
         // New view
@@ -137,6 +141,11 @@ class ViewController: UIViewController {
                 
                 buttonsView.addSubview(letterButton)
                 letterButtons.append(letterButton)
+                
+                // Challenge #1
+                // Adding borders to the buttons
+                letterButton.layer.borderWidth = 1
+                letterButton.layer.borderColor = UIColor.lightGray.cgColor
             }
         }
     }
@@ -170,13 +179,38 @@ class ViewController: UIViewController {
             
             currentAnswer.text = ""
             score += 1
+            correctGuesses += 1
             
-            if score % 7 == 0 {
-                let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
-                present(ac, animated: true)
+            if correctGuesses % 7 == 0 {
+                if level == 1 {
+                    let ac = UIAlertController(title: "Well done!", message: "Are you ready for the next level?", preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "OK", style: .default, handler: levelUp))
+                    present(ac, animated: true)
+                } else {
+                    presentAlert(title: "Congratulations!", message: "You've finished the game!")
+                }
+            }
+        } else {
+            // Challenge #2
+            // Present an error when the user guess incorrectly
+            if !answerText.isEmpty {
+                presentAlert(title: "Your answer is incorrect", message: "\(answerText) is not a correct answer.")
+            } else {
+                presentAlert(title: "Answer is empty", message: "Please insert letters before submitting.")
             }
             
+            // Clear current answer
+            currentAnswer.text = ""
+            
+            // Bring back pressed buttons
+            for button in activatedButtons {
+                button.isHidden = false
+            }
+            activatedButtons.removeAll()
+            
+            // Challenge #3
+            // Deduct points for incorrect guess
+            score -= 1
         }
     }
     
@@ -184,8 +218,6 @@ class ViewController: UIViewController {
         // Add 1 to level
         // Clear solutions array and keep capacity since it's always 7
         // Load level
-        
-        
         level += 1
         solutions.removeAll(keepingCapacity: true)
         loadLevel()
@@ -243,6 +275,14 @@ class ViewController: UIViewController {
                 letterButtons[i].setTitle(letterBits[i], for: .normal)
             }
         }
+    }
+    
+    // Function that I added (not part of the original project) just to avoid repetition
+    func presentAlert(title: String, message: String) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+        
     }
 }
 
