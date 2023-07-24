@@ -33,13 +33,16 @@ class ViewController: UITableViewController {
             urlString = "https://www.hackingwithswift.com/samples/petitions-2.json"
         }
         
+        // Use GCD
+        DispatchQueue.global(qos: .userInitiated).async {
         // Convert string to URL
-        if let url = URL(string: urlString) {
-            // Convert URL to data instance
-            if let data = try? Data(contentsOf: url) {
-                // Parse data
-                parse(json: data)
-                return
+            if let url = URL(string: urlString) {
+                // Convert URL to data instance (blocking call)
+                if let data = try? Data(contentsOf: url) {
+                    // Parse data
+                    self.parse(json: data)
+                    return
+                }
             }
         }
         showError()
@@ -61,7 +64,9 @@ class ViewController: UITableViewController {
             // Populate filteredPetitions since it is the one being displayed
             // petitions just acts as a 'database' right now
             filteredPetitions = petitions
-            tableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
         }
     }
     
