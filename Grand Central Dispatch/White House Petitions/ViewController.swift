@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UITableViewController {
-
+    
     // Array to store petitions
     var petitions = [Petition]()
     // Needed for challenge 2
@@ -25,6 +25,10 @@ class ViewController: UITableViewController {
         // Filter button
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(filterTapped))
         
+        performSelector(inBackground: #selector(fetchJSON), with: nil)
+    }
+    
+    @objc func fetchJSON() {
         let urlString: String
         
         if navigationController?.tabBarItem.tag == 0 {
@@ -33,25 +37,23 @@ class ViewController: UITableViewController {
             urlString = "https://www.hackingwithswift.com/samples/petitions-2.json"
         }
         
-        // Use GCD
-        DispatchQueue.global(qos: .userInitiated).async {
         // Convert string to URL
-            if let url = URL(string: urlString) {
-                // Convert URL to data instance (blocking call)
-                if let data = try? Data(contentsOf: url) {
-                    // Parse data
-                    self.parse(json: data)
-                    return
-                }
+        if let url = URL(string: urlString) {
+            // Convert URL to data instance (blocking call)
+            if let data = try? Data(contentsOf: url) {
+                // Parse data
+                parse(json: data)
+                return
             }
         }
-        showError()
+        // Show error if data could not be loaded on MAIN thread
+        performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
     }
     
-    func showError() {
-        let ac = UIAlertController(title: "Loading error", message: "There was a problem loading the feed; please check your connection and try again.", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
+    @objc func showError() {
+            let ac = UIAlertController(title: "Loading error", message: "There was a problem loading the feed; please check your connection and try again.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
     }
     
     func parse(json: Data) {
@@ -64,9 +66,9 @@ class ViewController: UITableViewController {
             // Populate filteredPetitions since it is the one being displayed
             // petitions just acts as a 'database' right now
             filteredPetitions = petitions
-            DispatchQueue.main.async { [weak self] in
-                self?.tableView.reloadData()
-            }
+            tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: false)
+        } else {
+            performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
         }
     }
     
@@ -99,7 +101,7 @@ class ViewController: UITableViewController {
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
     }
-
+    
     // For challenge 2
     // Filters petitions
     @objc func filterTapped() {
