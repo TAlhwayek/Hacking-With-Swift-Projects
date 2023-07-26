@@ -111,7 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Get collision information
                 // "Tell us what you're bouncing off of"
                 ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
-                ball.position = location
+                ball.position = CGPoint(x: location.x, y: 768)
                 ball.name = "ball"
                 addChild(ball)
             }
