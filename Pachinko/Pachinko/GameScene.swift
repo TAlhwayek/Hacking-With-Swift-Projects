@@ -29,6 +29,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    var balls = ["Red", "Green", "Blue", "Cyan", "Grey", "Purple", "Yellow"]
+    
     override func didMove(to view: SKView) {
         // Add background
         let background = SKSpriteNode(imageNamed: "background")
@@ -103,7 +105,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(box)
             } else {
                 // Create new ball at touch location
-                let ball = SKSpriteNode(imageNamed: "ballRed")
+                // Challenge #1
+                // Randomize ball colors
+                let ball = SKSpriteNode(imageNamed: "ball" + balls.randomElement()!)
                 // Add physics to ball with radius
                 ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
                 // Change 'bounciness' (max is 1)
