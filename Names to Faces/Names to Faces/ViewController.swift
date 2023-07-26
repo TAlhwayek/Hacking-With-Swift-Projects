@@ -77,15 +77,47 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let person = people[indexPath.item]
         
-        let ac = UIAlertController(title: "Rename person", message: nil, preferredStyle: .alert)
-        ac.addTextField()
-        ac.addAction(UIAlertAction(title: "OK", style: .default) { [weak self, weak ac] _ in
-            guard let newName = ac?.textFields?[0].text else { return }
-            person.name = newName
-            self?.collectionView.reloadData()
-        })
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        present(ac, animated: true)
+        // Challenge 1
+        // Present a new alert controller that asks the user whether they want to rename or delete the selected view
+        
+        // Main alert controller
+        let firstAC = UIAlertController(title: "Delete or rename?", message: nil, preferredStyle: .alert)
+        
+        // Rename button
+        let renameAction = UIAlertAction(title: "Rename", style: .default) { _ in
+            let ac = UIAlertController(title: "Rename person", message: nil, preferredStyle: .alert)
+            ac.addTextField()
+            ac.addAction(UIAlertAction(title: "OK", style: .default) { [weak self, weak ac] _ in
+                guard let newName = ac?.textFields?[0].text else { return }
+                person.name = newName
+                self?.collectionView.reloadData()
+            })
+            ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            self.present(ac, animated: true)
+        }
+        
+        // Delete button
+        let deleteAction = UIAlertAction(title: "Delete", style: .default) { _ in
+            // Remove person from people array
+            self.people.remove(at: indexPath.item)
+            // Delete item from collection view
+            self.collectionView.deleteItems(at: [indexPath])
+            // Update collection view
+            collectionView.reloadData()
+        }
+        
+        // Add both actions to the button
+        firstAC.addAction(renameAction)
+        firstAC.addAction(deleteAction)
+        
+        // Present main AC
+        present(firstAC, animated: true)
+        
+        
+    }
+    
+    @objc func renamePerson() {
+        
     }
 }
 
