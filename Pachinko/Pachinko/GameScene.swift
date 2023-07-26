@@ -111,6 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Get collision information
                 // "Tell us what you're bouncing off of"
                 ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
+                // Let balls spawn at top of screen, but horizontally where the user pressed
                 ball.position = CGPoint(x: location.x, y: 768)
                 ball.name = "ball"
                 addChild(ball)
@@ -178,6 +179,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Destroy ball
     func destroy(ball: SKNode) {
+        // Add fire to destoryed balls
+        if let fireParticles = SKEmitterNode(fileNamed: "FireParticles") {
+            fireParticles.position = ball.position
+            addChild(fireParticles)
+        }
         ball.removeFromParent()
     }
     

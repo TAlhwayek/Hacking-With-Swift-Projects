@@ -14,6 +14,7 @@
 		9B9E5F9F2A70CB7E0045A7F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B9E5F9D2A70CB7E0045A7F4 /* Main.storyboard */; };
 		9B9E5FA12A70CB800045A7F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B9E5FA02A70CB800045A7F4 /* Assets.xcassets */; };
 		9B9E5FA42A70CB800045A7F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B9E5FA22A70CB800045A7F4 /* LaunchScreen.storyboard */; };
+		9B9E5FAB2A7100E50045A7F4 /* FireParticles.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9B9E5FAA2A7100E50045A7F4 /* FireParticles.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		9B9E5F9E2A70CB7E0045A7F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9B9E5FA02A70CB800045A7F4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B9E5FA32A70CB800045A7F4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9B9E5FAA2A7100E50045A7F4 /* FireParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireParticles.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				9B9E5F9D2A70CB7E0045A7F4 /* Main.storyboard */,
 				9B9E5FA02A70CB800045A7F4 /* Assets.xcassets */,
 				9B9E5FA22A70CB800045A7F4 /* LaunchScreen.storyboard */,
+				9B9E5FAA2A7100E50045A7F4 /* FireParticles.sks */,
 			);
 			path = Pachinko;
 			sourceTree = "<group>";
@@ -128,6 +131,7 @@
 			files = (
 				9B9E5F9F2A70CB7E0045A7F4 /* Main.storyboard in Resources */,
 				9B9E5F962A70CB7D0045A7F4 /* GameScene.sks in Resources */,
+				9B9E5FAB2A7100E50045A7F4 /* FireParticles.sks in Resources */,
 				9B9E5FA12A70CB800045A7F4 /* Assets.xcassets in Resources */,
 				9B9E5FA42A70CB800045A7F4 /* LaunchScreen.storyboard in Resources */,
 			);
