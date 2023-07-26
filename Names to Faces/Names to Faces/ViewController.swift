@@ -28,6 +28,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         // Add names to each label
         let person = people[indexPath.item]
         cell.name.text = person.name
+        cell.name.textColor = .black
         
         // Assign image to a cell
         let path = getDocumentsDirectory().appendingPathComponent(person.image)
@@ -43,11 +44,41 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         return cell
     }
     
+    
+    // This entire section was modified for challenge #2
     @objc func addNewPerson() {
         let picker = UIImagePickerController()
-        picker.allowsEditing = true
-        picker.delegate = self
-        present(picker, animated: true)
+        
+        // Added a new alert that lets the user choose between camera or gallery
+        let cameraAC = UIAlertController(title: "Camera or gallery?", message: nil, preferredStyle: .alert)
+        
+        // If user chose camera
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
+            // Make sure camera is available
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                picker.sourceType = .camera
+                picker.allowsEditing = true
+                picker.delegate = self
+                self.present(picker, animated: true)
+            }
+        }
+        
+        // If user chose gallery
+        let galleryAction = UIAlertAction(title: "Gallery", style: .default) { _ in
+            picker.sourceType = .photoLibrary
+            picker.allowsEditing = true
+            picker.delegate = self
+            self.present(picker, animated: true)
+        }
+        
+        // Cancel button
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        // Add all actions to alert and present
+        cameraAC.addAction(cameraAction)
+        cameraAC.addAction(galleryAction)
+        cameraAC.addAction(cancelAction)
+        present(cameraAC, animated: true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -106,9 +137,13 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             collectionView.reloadData()
         }
         
-        // Add both actions to the button
+        // Cancel button
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        // Add all actions to the button
         firstAC.addAction(renameAction)
         firstAC.addAction(deleteAction)
+        firstAC.addAction(cancelAction)
         
         // Present main AC
         present(firstAC, animated: true)
