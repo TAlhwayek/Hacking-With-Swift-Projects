@@ -29,6 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // For challenge #2, to assign ball colors randomly
     var balls = ["Red", "Green", "Blue", "Cyan", "Grey", "Purple", "Yellow"]
     
     override func didMove(to view: SKView) {
@@ -66,7 +67,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         makeSlots(at: CGPoint(x: 640, y: 0), isGood: true)
         makeSlots(at: CGPoint(x: 896, y: 0), isGood: false)
         
-        // Add bouncers
+        // Add bouncers at specfic locations
         makeBouncer(at: CGPoint(x: 0, y: 0))
         makeBouncer(at: CGPoint(x: 256, y: 0))
         makeBouncer(at: CGPoint(x: 512, y: 0))
@@ -197,7 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let nodeA = contact.bodyA.node else { return }
         guard let nodeB = contact.bodyB.node else { return }
         
-        // If the first thing we collided with is called "ball"
+        // Handle collisions between ball and other object
         if contact.bodyA.node?.name == "ball" {
             collision(between: nodeA, object: nodeB)
         } else if contact.bodyB.node?.name == "ball" {
