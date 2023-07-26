@@ -110,7 +110,6 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         
         // Challenge 1
         // Present a new alert controller that asks the user whether they want to rename or delete the selected view
-        
         // Main alert controller
         let firstAC = UIAlertController(title: "Delete or rename?", message: nil, preferredStyle: .alert)
         
@@ -147,12 +146,6 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         
         // Present main AC
         present(firstAC, animated: true)
-        
-        
-    }
-    
-    @objc func renamePerson() {
-        
     }
 }
 
