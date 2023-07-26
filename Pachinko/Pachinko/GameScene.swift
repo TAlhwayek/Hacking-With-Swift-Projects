@@ -115,6 +115,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Get collision information
                 // "Tell us what you're bouncing off of"
                 ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
+                // This turned out to be challenge #2
                 // Let balls spawn at top of screen, but horizontally where the user pressed
                 ball.position = CGPoint(x: location.x, y: 768)
                 ball.name = "ball"
