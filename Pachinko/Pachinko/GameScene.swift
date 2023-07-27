@@ -32,6 +32,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // For challenge #2, to assign ball colors randomly
     var balls = ["Red", "Green", "Blue", "Cyan", "Grey", "Purple", "Yellow"]
     
+    // Challenge #3
+    // 5 balls per round
+    var ballCount = 5 {
+        didSet {
+            ballLabel.text = "Balls left: \(ballCount)"
+        }
+    }
+    
+    var ballLabel = SKLabelNode()
+    
     override func didMove(to view: SKView) {
         // Add background
         let background = SKSpriteNode(imageNamed: "background")
@@ -46,7 +56,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         scoreLabel.text = "Score: 0"
         scoreLabel.horizontalAlignmentMode = .right
-        scoreLabel.position = CGPoint(x: 980, y: 700)
+        scoreLabel.position = CGPoint(x: 980, y: 650)
         addChild(scoreLabel)
         
         // Add edit label
@@ -54,6 +64,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         editLabel.text = "Edit"
         editLabel.position = CGPoint(x: 80, y: 700)
         addChild(editLabel)
+        
+        // New label for ball count
+        ballLabel = SKLabelNode(fontNamed: "Chalkduster")
+        ballLabel.text = "Balls left: 5"
+        ballLabel.position = CGPoint(x: 875, y: 700)
+        addChild(ballLabel)
+        
         
         // Add physics to the entire scene
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
@@ -105,22 +122,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Add box to view
                 addChild(box)
             } else {
-                // Create new ball at touch location
-                // Challenge #1
-                // Randomize ball colors
-                let ball = SKSpriteNode(imageNamed: "ball" + balls.randomElement()!)
-                // Add physics to ball with radius
-                ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
-                // Change 'bounciness' (max is 1)
-                ball.physicsBody?.restitution = 0.4
-                // Get collision information
-                // "Tell us what you're bouncing off of"
-                ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
-                // This turned out to be challenge #2
-                // Let balls spawn at top of screen, but horizontally where the user pressed
-                ball.position = CGPoint(x: location.x, y: 768)
-                ball.name = "ball"
-                addChild(ball)
+                if ballCount > 0 {
+                    // Create new ball at touch location
+                    // Challenge #1
+                    // Randomize ball colors
+                    let ball = SKSpriteNode(imageNamed: "ball" + balls.randomElement()!)
+                    // Add physics to ball with radius
+                    ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
+                    // Change 'bounciness' (max is 1)
+                    ball.physicsBody?.restitution = 0.4
+                    // Get collision information
+                    // "Tell us what you're bouncing off of"
+                    ball.physicsBody?.contactTestBitMask = ball.physicsBody?.collisionBitMask ?? 0
+                    // This turned out to be challenge #2
+                    // Let balls spawn at top of screen, but horizontally where the user pressed
+                    ball.position = CGPoint(x: location.x, y: 768)
+                    ball.name = "ball"
+                    addChild(ball)
+                    ballCount -= 1
+                } else {
+                    // Game over when out of balls
+                    presentAlert(title: "Game Over", message: "You are out of balls :(")
+                }
             }
         }
     }
@@ -177,6 +200,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if object.name == "good" {
             destroy(ball: ball)
             score += 1
+            ballCount += 1
         } else if object.name == "bad" {
             destroy(ball: ball)
             score -= 1
@@ -204,5 +228,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if contact.bodyB.node?.name == "ball" {
             collision(between: nodeB, object: nodeA)
         }
+    }
+    
+    func presentAlert(title: String, message: String) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        view?.window?.rootViewController?.present(ac, animated: true)
     }
 }
