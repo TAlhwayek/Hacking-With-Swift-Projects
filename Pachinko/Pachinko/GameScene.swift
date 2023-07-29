@@ -115,8 +115,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 box.zRotation = CGFloat.random(in: 0...3)
                 // Get location from touch
                 box.position = location
+                // Add name for challenge #3
+                box.name = "box"
                 // Generate box size
                 box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
+                // Get collisions
+                box.physicsBody?.contactTestBitMask = box.physicsBody?.collisionBitMask ?? 0
                 // Make box immovable
                 box.physicsBody?.isDynamic = false
                 // Add box to view
@@ -204,6 +208,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if object.name == "bad" {
             destroy(ball: ball)
             score -= 1
+        // Destroy boxes on collision
+        // For challenge #3
+        } else if object.name == "box" {
+            destroy(ball: object)
         }
     }
     
@@ -226,6 +234,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.node?.name == "ball" {
             collision(between: nodeA, object: nodeB)
         } else if contact.bodyB.node?.name == "ball" {
+            collision(between: nodeB, object: nodeA)
+        } else if contact.bodyA.node?.name == "box" {
+            collision(between: nodeA, object: nodeB)
+        } else if contact.bodyB.node?.name == "box" {
             collision(between: nodeB, object: nodeA)
         }
     }
