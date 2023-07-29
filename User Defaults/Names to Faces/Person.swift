@@ -15,4 +15,15 @@ class Person: NSObject, NSCoding {
         self.name = name
         self.image = image
     }
+    
+    // Read from disk
+    required init?(coder aDecoder: NSCoder) {
+        name = aDecoder.decodeObject(forKey: "name") as? String ?? ""
+        image = aDecoder.decodeObject(forKey: "image") as? String ?? ""
+    }
+    
+    // Write to disk
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(image, forKey: "image")
+    }
 }
