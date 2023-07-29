@@ -35,7 +35,7 @@ class ViewController: UITableViewController {
         // Sort images in ascending order
         pictures.sort()
         
-        // Save data using user defaults
+        // Load data
         let defaults = UserDefaults.standard
         
         if let savedCount = defaults.object(forKey: "count") as? Data {
@@ -79,10 +79,11 @@ override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: Inde
     }
 }
     
+    // Save data
     func save() {
         let defaults = UserDefaults.standard
         let jsonEncoder = JSONEncoder()
-        
+
         do {
             let savedCount = try jsonEncoder.encode(openCount)
             defaults.set(savedCount, forKey: "count")
