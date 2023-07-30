@@ -94,6 +94,11 @@ class ViewController: UIViewController {
             // Present the final alert and reset score
             message = "Your final score is \(score)"
             buttonTitle = "Play again?"
+            
+            // Working on project 12 - challenge #2 
+            if score > highScore {
+                
+            }
             score = 0
             questionsAsked = 0
         }
