@@ -29,12 +29,31 @@ class ViewController: UITableViewController {
                 allWords = startWords.components(separatedBy: "\n")
             }
         }
+        
+        // Load previous game
+        let defaults = UserDefaults.standard
+        
+        if let savedUsedWords = defaults.data(forKey: "usedWords") as? Data {
+            let jsonDecoder = JSONDecoder()
+            
+            do {
+                // Load saved used words
+                usedWords = try jsonDecoder.decode([String].self, from: savedUsedWords)
+            } catch {
+                print("Error loading data: \(error)")
+            }
+        }
+        
+        loadTitle()
+        
+        
         // If no words were read in (i.e an error occurred)
         if allWords.isEmpty {
             allWords = ["NO WORDS WERE FOUND"]
         }
+        
         // Start the game
-        startGame()
+        // startGame()
     }
 
     @objc func startGame() {
@@ -65,6 +84,8 @@ class ViewController: UITableViewController {
         let submitAction = UIAlertAction(title: "Submit", style: .default) {
             [weak self, weak ac] _ in
             guard let answer = ac?.textFields?[0].text else { return }
+            // Save title for challenge #3 of project 12
+            self?.saveTitle()
             self?.submit(answer)
         }
         
@@ -89,6 +110,7 @@ class ViewController: UITableViewController {
                         if isGivenWord(word: lowerAnswer){
                             // Add word to usedWords[0]
                             usedWords.insert(lowerAnswer, at: 0)
+                            saveWords()
                             
                             // Insert new row at [0, 0]
                             let indexPath = IndexPath(row: 0, section: 0)
@@ -173,6 +195,33 @@ class ViewController: UITableViewController {
         let ac = UIAlertController(title: errorTitle, message: errorMessage, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
+    }
+    
+    func saveWords() {
+        let defaults = UserDefaults.standard
+        let jsonEncoder = JSONEncoder()
+        
+        // Save used words list
+        do {
+            let savedUsedWords = try jsonEncoder.encode(usedWords)
+            defaults.set(savedUsedWords, forKey: "usedWords")
+        } catch {
+            print("Error savings used words: \(error)")
+        }
+    }
+    
+    // For project 12 - challenge #3
+    // Save and load title
+    func saveTitle() {
+        let defaults = UserDefaults.standard
+        defaults.set(title, forKey: "title")
+    }
+    
+    func loadTitle() {
+        let defaults = UserDefaults.standard
+        if let savedTitle = defaults.string(forKey: "title") {
+            title = savedTitle
+        }
     }
 }
 
