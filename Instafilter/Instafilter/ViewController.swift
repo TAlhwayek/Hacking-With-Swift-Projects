@@ -35,6 +35,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @objc func importPicture() {
         let picker = UIImagePickerController()
         picker.allowsEditing = true
+        picker.delegate = self
         present(picker, animated: true)
     }
     
@@ -43,7 +44,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         guard let image = info[.editedImage] as? UIImage else { return }
         dismiss(animated: true)
         currentImage = image
+        
+        // Make the current image editable
+        let beginImage = CIImage(image: currentImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        // Apply filter
+        applyProcessing()
     }
+    
+
 
     @IBAction func changeFilter(_ sender: Any) {
     }
@@ -53,6 +62,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // If the slider's value was changed
     @IBAction func intensityChanged(_ sender: Any) {
+        applyProcessing()
+    }
+    
+    func applyProcessing() {
+        guard let image = currentFilter.outputImage else { return }
+        currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey)
+        
+        // Create cgImage with the same size as our image and using the filter
+        if let cgImage = context.createCGImage(image, from: image.extent) {
+            // Conver to UIImage
+            let processedImage = UIImage(cgImage: cgImage)
+            // Display the image
+            imageView.image = processedImage
+        }
     }
 }
 
