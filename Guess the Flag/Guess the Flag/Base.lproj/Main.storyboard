@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22113.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eST-qq-6sP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22146" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eST-qq-6sP">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22089.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22122"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -46,14 +46,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="High score : 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OYe-uk-SfG">
+                                <rect key="frame" x="143.66666666666666" y="629" width="106" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="EQT-ib-7zo" firstAttribute="top" secondItem="Brj-lb-NY5" secondAttribute="bottom" constant="30" id="CU7-wA-pqf"/>
+                            <constraint firstItem="OYe-uk-SfG" firstAttribute="top" secondItem="30X-Hj-l86" secondAttribute="bottom" constant="32" id="Ddg-PC-tvi"/>
                             <constraint firstItem="xc1-tT-T90" firstAttribute="centerX" secondItem="EQT-ib-7zo" secondAttribute="centerX" id="FdS-gX-SM1"/>
                             <constraint firstItem="30X-Hj-l86" firstAttribute="centerX" secondItem="xc1-tT-T90" secondAttribute="centerX" id="G7a-FB-HEb"/>
                             <constraint firstItem="30X-Hj-l86" firstAttribute="top" secondItem="xc1-tT-T90" secondAttribute="bottom" constant="71" id="Gbc-SL-6MU"/>
+                            <constraint firstItem="OYe-uk-SfG" firstAttribute="centerX" secondItem="30X-Hj-l86" secondAttribute="centerX" id="IhJ-EJ-jye"/>
                             <constraint firstItem="EQT-ib-7zo" firstAttribute="centerX" secondItem="Brj-lb-NY5" secondAttribute="centerX" id="XHX-sP-bcg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="Brj-lb-NY5" secondAttribute="top" constant="3" id="bSJ-pq-eVd"/>
                             <constraint firstItem="Brj-lb-NY5" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="op0-dt-q71"/>
@@ -65,6 +73,7 @@
                         <outlet property="button1" destination="Brj-lb-NY5" id="Toc-Zm-0yY"/>
                         <outlet property="button2" destination="EQT-ib-7zo" id="qBm-pb-COM"/>
                         <outlet property="button3" destination="xc1-tT-T90" id="mnf-qQ-QXs"/>
+                        <outlet property="highScoreLabel" destination="OYe-uk-SfG" id="Npd-Xe-HJK"/>
                         <outlet property="scoreLabel" destination="30X-Hj-l86" id="7Ns-BR-5xh"/>
                     </connections>
                 </viewController>

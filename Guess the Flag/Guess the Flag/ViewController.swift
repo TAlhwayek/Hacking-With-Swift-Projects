@@ -17,10 +17,21 @@ class ViewController: UIViewController {
     // Score label
     @IBOutlet var scoreLabel: UILabel!
     
+    // High score label
+    @IBOutlet var highScoreLabel: UILabel!
+    
     // Variables
     var countries = [String]()
     var score = 0
     var correctAnswer = 0
+    
+    // Use user defaults
+    var highScore = 0 {
+        didSet {
+            // Update high score label whenever it changes
+            highScoreLabel.text = "High score: \(highScore)"
+        }
+    }
     
     // Challenge variables
     var questionsAsked = 0
@@ -40,6 +51,20 @@ class ViewController: UIViewController {
         button1.layer.borderColor = UIColor.lightGray.cgColor
         button2.layer.borderColor = UIColor.lightGray.cgColor
         button3.layer.borderColor = UIColor.lightGray.cgColor
+        
+        // Load data
+        let defaults = UserDefaults.standard
+
+        if let savedHighScore = defaults.object(forKey: "highScore") as? Data {
+          let jsonDecoder = JSONDecoder()
+
+          do {
+              // Load high score
+              highScore = try jsonDecoder.decode(Int.self, from: savedHighScore)
+          } catch {
+            print("Error decoding the array: \(error)")
+          }
+        }
         
         // Start the game
         askQuestion()
@@ -95,10 +120,19 @@ class ViewController: UIViewController {
             message = "Your final score is \(score)"
             buttonTitle = "Play again?"
             
-            // Working on project 12 - challenge #2 
+            // Working on project 12 - challenge #2
             if score > highScore {
+                highScore = score
                 
+                // Save high score
+                save()
+                
+                // Present alert
+                let ac = UIAlertController(title: "New highscore!", message: "Your new highscore is \(score)", preferredStyle: .alert)
+                ac.addAction(UIAlertAction(title: "Play again?", style: .default))
+                present(ac, animated: true)
             }
+            
             score = 0
             questionsAsked = 0
         }
@@ -108,5 +142,18 @@ class ViewController: UIViewController {
         ac.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: askQuestion))
         present(ac, animated: true)
     }
+    
+    // Save our highscore
+    func save() {
+         let defaults = UserDefaults.standard
+         let jsonEncoder = JSONEncoder()
+
+         do {
+             let savedHighScore = try jsonEncoder.encode(highScore)
+             defaults.set(savedHighScore, forKey: "highScore")
+         } catch {
+             print("Encoding error: \(error)")
+         }
+     }
 }
 
