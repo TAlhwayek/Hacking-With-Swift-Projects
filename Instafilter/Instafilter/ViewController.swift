@@ -52,11 +52,41 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         applyProcessing()
     }
     
-
-
-    @IBAction func changeFilter(_ sender: Any) {
+    // Create menu that lets users choose filter
+    @IBAction func changeFilter(_ sender: UIButton) {
+        let ac = UIAlertController(title: "Choose filter", message: nil, preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "CIBumpDistortion", style: .default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CIGaussianBlur", style: .default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CIPixellate", style: .default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CISepiaTone", style: .default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CITwirlDistortion", style: .default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CIUnsharpMask", style: .default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "CIVignette", style: .default, handler: setFilter))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        // Generate size of pop over based on current device
+        if let popOverController = ac.popoverPresentationController {
+            popOverController.sourceView = sender
+            popOverController.sourceRect = sender.bounds
+        }
+        present(ac, animated: true)
     }
     
+    func setFilter(action: UIAlertAction) {
+        // Make sure there is an image
+        guard currentImage != nil else { return }
+        // Get title
+        guard let actionTitle = action.title else { return }
+        // Get current filter using name from list
+        currentFilter = CIFilter(name: actionTitle)
+        
+        // Apply filter to image
+        let beginImage = CIImage(image: currentImage)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        applyProcessing()
+    }
+    
+    // Save the image to the user's gallery
     @IBAction func save(_ sender: Any) {
     }
     
@@ -65,16 +95,37 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         applyProcessing()
     }
     
+    // Apply the filter
     func applyProcessing() {
-        guard let image = currentFilter.outputImage else { return }
-        currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey)
+        
+        let inputKeys = currentFilter.inputKeys
+        
+        // If filter supports intensity, use it
+        if inputKeys.contains(kCIInputIntensityKey) {
+            currentFilter.setValue(intensity.value, forKey: kCIInputIntensityKey)
+        }
+        
+        // If filter supports radius, use it but * 200 to amplify it
+        if inputKeys.contains(kCIInputRadiusKey) {
+            currentFilter.setValue(intensity.value * 200, forKey: kCIInputRadiusKey)
+        }
+        
+        // If filter supports scaling
+        if inputKeys.contains(kCIInputScaleKey) {
+            currentFilter.setValue(intensity.value * 10, forKey: kCIInputScaleKey)
+        }
+        
+        // If filter supports centering
+        if inputKeys.contains(kCIInputCenterKey) {
+            currentFilter.setValue(CIVector(x: currentImage.size.width / 2, y: currentImage.size.height / 2), forKey: kCIInputCenterKey)
+        }
         
         // Create cgImage with the same size as our image and using the filter
-        if let cgImage = context.createCGImage(image, from: image.extent) {
+        if let cgImage = context.createCGImage(currentFilter.outputImage!, from: currentFilter.outputImage!.extent) {
             // Conver to UIImage
             let processedImage = UIImage(cgImage: cgImage)
             // Display the image
-            imageView.image = processedImage
+            self.imageView.image = processedImage
         }
     }
 }
