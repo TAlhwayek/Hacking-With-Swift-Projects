@@ -88,6 +88,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // Save the image to the user's gallery
     @IBAction func save(_ sender: Any) {
+        // Check if there is an image to avoid crashing
+        guard let image = imageView.image else { return }
+        
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
     // If the slider's value was changed
@@ -126,6 +130,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             let processedImage = UIImage(cgImage: cgImage)
             // Display the image
             self.imageView.image = processedImage
+        }
+    }
+    
+    // Check if image saved properly or encountered an error
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // Present alert controller if image could not be saved due to an error
+            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        } else {
+            // Present alert controller if image was successfully saved
+            let ac = UIAlertController(title: "Image saved!", message: "Your edited image has been saved to your photos", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
         }
     }
 }
