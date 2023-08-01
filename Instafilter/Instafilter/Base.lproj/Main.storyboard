@@ -23,7 +23,6 @@
                                         <rect key="frame" x="10" y="10" width="341" height="579"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="FXG-ue-c4P" firstAttribute="centerY" secondItem="pmy-ib-PnP" secondAttribute="centerY" id="G5m-sc-weg"/>
                                     <constraint firstItem="FXG-ue-c4P" firstAttribute="leading" secondItem="pmy-ib-PnP" secondAttribute="leading" constant="10" id="Kf8-tu-kYi"/>
@@ -51,11 +50,8 @@
                                     <action selector="save:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yGF-5E-BhF"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCy-7k-2wA">
-                                <rect key="frame" x="16" y="760" width="129" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="129" id="AkS-3t-jQl"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="180" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCy-7k-2wA">
+                                <rect key="frame" x="16" y="760" width="130" height="44"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Change Filter"/>
                                 <connections>
@@ -89,6 +85,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="VBh-Zg-vLN"/>
                     <connections>
+                        <outlet property="changeFilterButton" destination="eCy-7k-2wA" id="Xnp-qN-KFm"/>
                         <outlet property="imageView" destination="FXG-ue-c4P" id="jwM-MZ-zZV"/>
                         <outlet property="intensity" destination="fNh-lF-ocT" id="zZO-cL-X4O"/>
                     </connections>

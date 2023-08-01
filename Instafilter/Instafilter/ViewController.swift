@@ -13,6 +13,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var intensity: UISlider!
     
+    // Used for challenge #2
+    @IBOutlet var changeFilterButton: UIButton!
+    
     // Display the main image
     var currentImage: UIImage!
     
@@ -83,13 +86,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Apply filter to image
         let beginImage = CIImage(image: currentImage)
         currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+        // For challenge #2
+        // Set filter button's title as selected filter
+        changeFilterButton.setTitle(actionTitle, for: .normal)
+        
         applyProcessing()
     }
     
     // Save the image to the user's gallery
     @IBAction func save(_ sender: Any) {
         // Check if there is an image to avoid crashing
-        guard let image = imageView.image else { return }
+        guard let image = imageView.image else {
+            // Challenge #1
+            let ac = UIAlertController(title: "No image selected", message: nil, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+            
+            return
+        }
+        
+
         
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
@@ -124,8 +140,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             currentFilter.setValue(CIVector(x: currentImage.size.width / 2, y: currentImage.size.height / 2), forKey: kCIInputCenterKey)
         }
         
+        // Safely check if an image exits
+        guard let outputImage = currentFilter.outputImage else { return }
+        
         // Create cgImage with the same size as our image and using the filter
-        if let cgImage = context.createCGImage(currentFilter.outputImage!, from: currentFilter.outputImage!.extent) {
+        if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
             // Conver to UIImage
             let processedImage = UIImage(cgImage: cgImage)
             // Display the image
