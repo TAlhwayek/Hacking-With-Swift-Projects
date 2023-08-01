@@ -89,7 +89,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // For challenge #2
         // Set filter button's title as selected filter
         changeFilterButton.setTitle(actionTitle, for: .normal)
-        
+        // Apply filter
         applyProcessing()
     }
     
