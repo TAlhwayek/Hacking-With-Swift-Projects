@@ -17,10 +17,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pmy-ib-PnP">
-                                <rect key="frame" x="16" y="123" width="361" height="599"/>
+                                <rect key="frame" x="-10" y="123" width="413" height="599"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FXG-ue-c4P">
-                                        <rect key="frame" x="10" y="10" width="341" height="579"/>
+                                        <rect key="frame" x="10" y="10" width="393" height="579"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -31,7 +31,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Intensity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h25-vv-Be3">
-                                <rect key="frame" x="16" y="732" width="70" height="21"/>
+                                <rect key="frame" x="10" y="732" width="70" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="s1h-mq-zzE"/>
                                 </constraints>
@@ -59,7 +59,7 @@
                                 </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="fNh-lF-ocT">
-                                <rect key="frame" x="94" y="727" width="285" height="31"/>
+                                <rect key="frame" x="88" y="727" width="292" height="31"/>
                                 <connections>
                                     <action selector="intensityChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="92n-FY-V98"/>
                                 </connections>
@@ -68,14 +68,14 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="pmy-ib-PnP" firstAttribute="leading" secondItem="h25-vv-Be3" secondAttribute="leading" id="28k-VX-Sjv"/>
-                            <constraint firstItem="pmy-ib-PnP" firstAttribute="trailing" secondItem="fNh-lF-ocT" secondAttribute="trailing" id="2lj-SJ-jFN"/>
-                            <constraint firstItem="pmy-ib-PnP" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="3yi-XK-Ko4"/>
+                            <constraint firstItem="pmy-ib-PnP" firstAttribute="leading" secondItem="h25-vv-Be3" secondAttribute="leading" constant="-20" id="28k-VX-Sjv"/>
+                            <constraint firstItem="pmy-ib-PnP" firstAttribute="trailing" secondItem="fNh-lF-ocT" secondAttribute="trailing" constant="25" id="2lj-SJ-jFN"/>
+                            <constraint firstItem="pmy-ib-PnP" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" constant="26" id="3yi-XK-Ko4"/>
                             <constraint firstItem="h25-vv-Be3" firstAttribute="top" secondItem="fNh-lF-ocT" secondAttribute="top" constant="5" id="8Nq-GJ-cu3"/>
                             <constraint firstItem="eCy-7k-2wA" firstAttribute="baseline" secondItem="Tkk-jV-cu1" secondAttribute="baseline" id="AED-9p-rzs"/>
                             <constraint firstItem="h25-vv-Be3" firstAttribute="top" secondItem="pmy-ib-PnP" secondAttribute="bottom" constant="10" id="GoK-eo-LIf"/>
                             <constraint firstItem="fNh-lF-ocT" firstAttribute="leading" secondItem="h25-vv-Be3" secondAttribute="trailing" constant="10" id="SGk-q5-LwU"/>
-                            <constraint firstItem="pmy-ib-PnP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="XPn-Wb-O3V"/>
+                            <constraint firstItem="pmy-ib-PnP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-26" id="XPn-Wb-O3V"/>
                             <constraint firstItem="h25-vv-Be3" firstAttribute="leading" secondItem="eCy-7k-2wA" secondAttribute="leading" id="bq0-GJ-Bcc"/>
                             <constraint firstAttribute="bottom" secondItem="fNh-lF-ocT" secondAttribute="bottom" constant="95" id="qC8-sR-2Lc"/>
                             <constraint firstItem="pmy-ib-PnP" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="20" id="uyd-T6-noi"/>
