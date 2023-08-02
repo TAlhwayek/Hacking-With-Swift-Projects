@@ -108,6 +108,17 @@ class GameScene: SKScene {
             gameOver.position = CGPoint(x: 512, y: 384)
             gameOver.zPosition = 1
             addChild(gameOver)
+            
+            // Challenge #2
+            // Add label showing final score
+            let endScore = SKLabelNode(text: "Score: \(score)")
+            endScore.fontSize = 44
+            endScore.fontName = "Chalkduster"
+            endScore.position = CGPoint(x: 512, y: 290)
+            endScore.horizontalAlignmentMode = .center
+            endScore.zPosition = 1
+            addChild(endScore)
+            
             return
         }
         // Decrease time between penguins spawning
