@@ -104,9 +104,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             return
         }
-        
-
-        
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
