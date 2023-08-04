@@ -164,8 +164,10 @@ class ViewController: UIViewController {
         // Register that button has been tapped
         activatedButtons.append(sender)
         // Hide button after being tapped
-        sender.isHidden = true
-    }
+        UIView.animate(withDuration: 0.15, delay: 0, options: [], animations: {
+            sender.alpha = 0.1
+        })
+                       }
     
     @objc func submitTapped(_ sender: UIButton) {
         guard let answerText = currentAnswer.text else { return }
