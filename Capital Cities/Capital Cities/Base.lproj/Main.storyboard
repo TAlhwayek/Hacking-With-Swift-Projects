@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="103" width="399" height="749"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                                 <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="7KH-wA-aXe"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Zfk-gk-5oD"/>
                                 </connections>
                             </mapView>
                         </subviews>

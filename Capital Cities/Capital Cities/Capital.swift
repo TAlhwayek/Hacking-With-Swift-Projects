@@ -8,7 +8,7 @@
 import MapKit
 import UIKit
 
-class Capital: NSObject, MKAnnotation {
+class Capital: NSObject, MKAnnotation, MKMapViewDelegate {
     var title: String?
     var coordinate: CLLocationCoordinate2D
     var info: String
@@ -18,4 +18,7 @@ class Capital: NSObject, MKAnnotation {
         self.coordinate = coordinate
         self.info = info
     }
+    
+
+
 }
