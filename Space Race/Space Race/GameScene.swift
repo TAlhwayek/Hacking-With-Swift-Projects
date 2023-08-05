@@ -16,6 +16,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     var possibleEnemies = ["wall", "hammer", "tv"]
     var gameTimer: Timer?
     var isGameOver = false
+    // For challenge #2
+    // Count the number of enemies to modify the timer accordingly
+    var enemiesCreated = 0
+    // Start timer at 1 second
+    var dynamicTimer = 1.0
     
     var score = 0 {
         didSet {
@@ -25,6 +30,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     override func didMove(to view: SKView) {
         backgroundColor = .black
+        print("GAME STARTED")
         
         // Create background
         starfield = SKEmitterNode(fileNamed: "starfield")!
@@ -55,7 +61,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
         
         // Configure timer between objects spawning
-        gameTimer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: dynamicTimer, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+        
     }
     
     @objc func createEnemy() {
@@ -77,6 +84,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         sprite.physicsBody?.linearDamping = 0
         // Never stop spinning
         sprite.physicsBody?.angularDamping = 0
+        
+        // For challenge #2
+        // Count created enemies
+        enemiesCreated += 1
+        print(enemiesCreated)
+        
+        // Reduce timer by 0.1 seconds after 20, 40, 60, etc. enemies are spawned
+        if enemiesCreated > 0 && enemiesCreated % 20 == 0 {
+            // Make sure we don't hit 0
+            if dynamicTimer > 0.1 {
+                // Decrease time between spawns
+                dynamicTimer -= 0.1
+                // Delete old timer and start new one with reduced interval
+                gameTimer?.invalidate()
+                gameTimer = Timer.scheduledTimer(timeInterval: dynamicTimer, target: self, selector: #selector(createEnemy), userInfo: nil, repeats: true)
+            }
+        }
     }
     
     // Remove junk when it goes off screen
