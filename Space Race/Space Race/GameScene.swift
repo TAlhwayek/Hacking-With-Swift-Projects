@@ -91,4 +91,54 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             score += 1
         }
     }
+    
+    // When a touch is detected
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // Get first touch and its location
+        guard let touch = touches.first else { return }
+        var location = touch.location(in: self)
+        
+        // Create bounds for player
+        if location.y < 100 {
+            location.y = 100
+        } else if location.y > 668 {
+            location.y = 668
+        }
+        
+        // Allow player to move where user touched
+        player.position = location
+    }
+    
+    // Challenge #1
+    // End the game if the player removes their finger, as it is considered cheating
+    // I added the labels on my own because it gives the user an idea of what happened
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !isGameOver {
+            isGameOver = true
+            
+            let gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
+            gameOverLabel.text = "GAME OVER"
+            gameOverLabel.fontSize = 48
+            gameOverLabel.position = CGPoint(x: 512, y: 384)
+            addChild(gameOverLabel)
+            
+            let gameOverSubtitle = SKLabelNode(fontNamed: "Chalkduster")
+            gameOverSubtitle.text = "Removing your finger is considered as cheating!"
+            gameOverSubtitle.fontSize = 36
+            gameOverSubtitle.position = CGPoint(x: 512, y: 300)
+            addChild(gameOverSubtitle)
+        }
+    }
+    
+    // On contact with object
+    func didBegin(_ contact: SKPhysicsContact) {
+        let explosion = SKEmitterNode(fileNamed: "explosion")!
+        explosion.position = player.position
+        addChild(explosion)
+        
+        // Remove player
+        player.removeFromParent()
+        // End game
+        isGameOver = true
+    }
 }
