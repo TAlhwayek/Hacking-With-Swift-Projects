@@ -17,6 +17,7 @@ class ViewController: UITableViewController {
         
         // Set title
         title = "Flags"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         // Get all flags from assets
         let fm = FileManager.default
@@ -26,8 +27,8 @@ class ViewController: UITableViewController {
         // Add all flags to array
         for flag in items {
             if flag.hasSuffix("@3x.png") {
+                // Add flags to array
                 flags.append(flag)
-                print("\(flag) appended")
             }
         }
         
@@ -42,9 +43,32 @@ class ViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Flag", for: indexPath)
-        cell.textLabel?.text = flags[indexPath.row]
+        
+        // Just some formatting
+        // Remove "@3x.png"
+        var fixedFlagName = flags[indexPath.row].replacingOccurrences(of: "@3x.png", with: "")
+        
+        // Capitalize entire flag name if 2 letters or less
+        // Else, capitalize the first letter
+        if fixedFlagName.count <= 2 {
+            fixedFlagName = fixedFlagName.uppercased()
+        } else {
+            fixedFlagName = fixedFlagName.prefix(1).uppercased() + fixedFlagName.dropFirst()
+        }
+        // Use the fixed name in table
+        cell.textLabel?.text = fixedFlagName
+        
+        // Bonus
+        cell.imageView?.image = UIImage(named: flags[indexPath.row])
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let detailVC = storyboard?.instantiateViewController(withIdentifier: "DetailVC") as? DetailViewController {
+            detailVC.selectedFlag = flags[indexPath.row]
+            navigationController?.pushViewController(detailVC, animated: true)
+            
+        }
+    }
 }
 
