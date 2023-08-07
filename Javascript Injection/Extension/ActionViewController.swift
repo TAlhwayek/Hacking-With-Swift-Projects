@@ -16,6 +16,10 @@ class ActionViewController: UIViewController {
     var pageTitle = ""
     var pageURL = ""
     
+    var selectedJavaScript: String!
+    let alertSelected = "alert(document.title)"
+    let alert42Selected = "alert(\"42\")"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,13 +59,14 @@ class ActionViewController: UIViewController {
 
     @IBAction func done() {
         let item = NSExtensionItem()
-        let argument: NSDictionary = ["customJavaScript": script.text ?? ""]
+        let argument: NSDictionary = ["customJavaScript": selectedJavaScript ?? script.text]
         let webDictionary: NSDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: argument]
         let customJavaScript = NSItemProvider(item: webDictionary, typeIdentifier: kUTTypePropertyList as String)
         item.attachments = [customJavaScript]
         extensionContext?.completeRequest(returningItems: [item])
     }
     
+    // Let the keybaord keep up with scrolling text editor
     @objc func adjustForKeyboard(notification: Notification) {
         // Get size of keyboard
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
@@ -86,13 +91,23 @@ class ActionViewController: UIViewController {
     @objc func listOpened() {
         let ac = UIAlertController(title: "Select a script to run", message: nil, preferredStyle: .alert)
         let siteAlert = UIAlertAction(title: "Alert", style: .default) { _ in
-            let item = NSExtensionItem()
-            let argument: NSDictionary = ["customJavaScript": "alert(document.title)"]
-            let webDictionary: NSDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: argument]
-            let customJavaScript = NSItemProvider(item: webDictionary, typeIdentifier: kUTTypePropertyList as String)
-            item.attachments = [customJavaScript]
+            self.selectedJavaScript = self.alertSelected
         }
+    
+        let alert42 = UIAlertAction(title: "Alert(\"42\")", style: .default) { _ in
+            self.selectedJavaScript = self.alert42Selected
+        }
+        
+        let item = NSExtensionItem()
+        let argument: NSDictionary = ["customJavaScript": self.selectedJavaScript]
+        let webDictionary: NSDictionary = [NSExtensionJavaScriptFinalizeArgumentKey: argument]
+        let customJavaScript = NSItemProvider(item: webDictionary, typeIdentifier: kUTTypePropertyList as String)
+        item.attachments = [customJavaScript]
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         ac.addAction(siteAlert)
+        ac.addAction(alert42)
+        ac.addAction(cancel)
         present(ac, animated: true)
     }
 
