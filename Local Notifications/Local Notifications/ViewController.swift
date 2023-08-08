@@ -8,7 +8,7 @@
 import UserNotifications
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UNUserNotificationCenterDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +32,8 @@ class ViewController: UIViewController {
     }
     
     @objc func scheduleLocal() {
+        registerCategories()
+        
         let center = UNUserNotificationCenter.current()
         // Remove all pending notifications (haven't been sent yet)
         center.removeAllPendingNotificationRequests()
@@ -57,6 +59,46 @@ class ViewController: UIViewController {
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         center.add(request)
+    }
+    
+    func registerCategories() {
+        // Get state of notifications
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        
+        let show = UNNotificationAction(identifier: "show", title: "Tell me more...", options: .foreground)
+        let category = UNNotificationCategory(identifier: "alarm", actions: [show], intentIdentifiers: [])
+        center.setNotificationCategories([category])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        
+        if let customData = userInfo["customData"] as? String {
+            print("Custom data received: \(customData)")
+            
+            // What to do with notification
+            switch response.actionIdentifier {
+            case UNNotificationDefaultActionIdentifier:
+                presentAC(title: "Default", message: "User opened the app from the notification")
+                
+            case "show":
+                presentAC(title: "Show", message: "User tapped the show button")
+                
+            default:
+                break
+            }
+        }
+        
+        completionHandler()
+    }
+    
+    // Challenge #1
+    func presentAC(title: String, message: String) {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default)
+        ac.addAction(ok)
+        present(ac, animated: true)
     }
     
 }
