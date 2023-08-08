@@ -136,7 +136,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             collectionView.reloadData()
         }
         
-        // Cancel button
+        // Cancel button for alert
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         // Add all actions to the button
