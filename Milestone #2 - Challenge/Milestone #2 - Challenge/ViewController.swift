@@ -17,6 +17,7 @@ class ViewController: UITableViewController {
         
         title = "Shopping List"
         
+        // Add navbar items
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(clearList))
     }
