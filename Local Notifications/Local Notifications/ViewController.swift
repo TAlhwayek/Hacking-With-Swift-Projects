@@ -67,7 +67,9 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         center.delegate = self
         
         let show = UNNotificationAction(identifier: "show", title: "Tell me more...", options: .foreground)
-        let category = UNNotificationCategory(identifier: "alarm", actions: [show], intentIdentifiers: [])
+        // Challenge #2
+        let remind = UNNotificationAction(identifier: "remind", title: "Remind me later", options: .destructive)
+        let category = UNNotificationCategory(identifier: "alarm", actions: [show, remind], intentIdentifiers: [])
         center.setNotificationCategories([category])
     }
     
@@ -85,6 +87,10 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
             case "show":
                 presentAC(title: "Show", message: "User tapped the show button")
                 
+            // Remind the user in 24 hours
+            case "remind":
+                scheduleLocalTomorrow(interval: 86400)
+                
             default:
                 break
             }
@@ -99,6 +105,29 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         let ok = UIAlertAction(title: "OK", style: .default)
         ac.addAction(ok)
         present(ac, animated: true)
+    }
+    
+    // Challenge #2
+    func scheduleLocalTomorrow(interval: Double) {
+        let center = UNUserNotificationCenter.current()
+        // Remove all pending notifications (that haven't been sent yet)
+        center.removeAllPendingNotificationRequests()
+        
+        let content = UNMutableNotificationContent()
+        // Set what the notification will show
+        content.title = "Late wake up call"
+        content.body = "The early bird catches the worm, but the second mouse gets the cheese."
+        // Set a category
+        content.categoryIdentifier = "alarm"
+        content.userInfo = ["customData": "fizzBuzz"]
+        // Set default notification sound
+        content.sound = .default
+        
+        // Show alarm after 1 day
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        center.add(request)
     }
     
 }
