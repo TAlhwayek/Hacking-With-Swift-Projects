@@ -124,8 +124,8 @@ class GameScene: SKScene {
         // Count number of launches
         launches += 1
         
-        // End game after 5 launches
-        if launches >= 5 {
+        // End game after 10 launches
+        if launches >= 10 {
             gameTimer?.invalidate()
         }
     }
@@ -183,10 +183,18 @@ class GameScene: SKScene {
     }
     
     func explode(firework: SKNode) {
+        let wait = SKAction.wait(forDuration: 2)
+        
         if let emitter = SKEmitterNode(fileNamed: "explode") {
             // Create explosion at position of firework
             emitter.position = firework.position
             addChild(emitter)
+            // Challenge #3
+            let sequence = SKAction.sequence([
+                SKAction.wait(forDuration: 0.5),
+                SKAction.removeFromParent()
+            ])
+            emitter.run(sequence)
         }
         // Remove firework from game scene
         firework.removeFromParent()
