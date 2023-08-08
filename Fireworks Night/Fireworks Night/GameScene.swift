@@ -15,6 +15,10 @@ class GameScene: SKScene {
     let leftEdge = -22
     let bottomEdge = -22
     let rightEdge = 1024 + 22
+    
+    // For challenge #2
+    // Count number of launches
+    var launches = 0
 
     var score = 0 {
         didSet {
@@ -35,10 +39,10 @@ class GameScene: SKScene {
         scoreLabel.position = CGPoint(x: 100, y: 20)
         scoreLabel.zPosition = 1
         addChild(scoreLabel)
-        
-
-        
+    
+        // Start game timer
         gameTimer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(launchFireworks), userInfo: nil, repeats: true)
+
     }
     
     func createFirework(xMovement: CGFloat, x: Int, y: Int) {
@@ -115,6 +119,14 @@ class GameScene: SKScene {
             
         default:
             break
+        }
+        
+        // Count number of launches
+        launches += 1
+        
+        // End game after 5 launches
+        if launches >= 5 {
+            gameTimer?.invalidate()
         }
     }
     
