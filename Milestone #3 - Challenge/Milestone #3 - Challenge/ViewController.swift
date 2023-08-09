@@ -53,11 +53,20 @@ class ViewController: UIViewController {
         }
     }
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .lightGray
+        // Make background black
+        view.backgroundColor = .black
+        
+        // Make all text white
+        livesRemainingLabel.textColor = .white
+        wordTitle.textColor = .white
+
+        // Change title to white
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         // Right button lets user enter letter
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addLetter))
@@ -76,7 +85,7 @@ class ViewController: UIViewController {
         
         newGame()
     }
-
+    
     // Function that gets a new word from the list and starts a new game
     @objc func newGame() {
         // Clear used letters
@@ -129,18 +138,33 @@ class ViewController: UIViewController {
     
     // Check if the letter is part of the word
     func isACorrectLetter(letter: String) -> Bool {
-        // Check if original word contains
-        // Then replace position in hiddenWord
+        var found = false
         
-        if let index = currentWord.firstIndex(of: Character(letter)) {
-            hiddenWord.replaceSubrange(index...index, with: letter)
-            return true
-        } else {
-            return false
+        // Find where letter exists in original word,
+        // And replace that position in hidden word
+        for (index, char) in currentWord.enumerated() {
+            if char == Character(letter) {
+                let stringIndex = currentWord.index(currentWord.startIndex, offsetBy: index)
+                hiddenWord.replaceSubrange(stringIndex...stringIndex, with: letter)
+                found = true
+            }
         }
         
-        
+        return found
     }
+    
+    func userWins() {
+        if currentWord == hiddenWord {
+            let winAC = UIAlertController(title: "Congratulations!", message: "You solved it!", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Try again?", style: .default) { _ in
+                // Start new game
+                self.newGame()
+            }
+            winAC.addAction(okAction)
+            present(winAC, animated: true)
+        }
+    }
+
     
     // Main submit functionality
     // Makes sure letter passes all checks
@@ -153,11 +177,11 @@ class ViewController: UIViewController {
                 if !isUsedLetter(letter: letter) {
                     // Check if letter is part of the solution
                     if isACorrectLetter(letter: letter) {
-                        
+                        // Check if user has won
+                        userWins()
                     } else {
                         // Deduct a life for an incorrect answer
                         livesRemaining -= 1
-                        
                         // Check if game over
                         if livesRemaining == 0 {
                             showGameOver()
@@ -175,10 +199,8 @@ class ViewController: UIViewController {
             showErrorAC(title: "Invalid input", message: "Please input only ONE letter")
         }
         
+        // Add letter to array to avoid duplicates
         usedLetters.append(letter)
-        
-        
-       
     }
     
     // Show an alert controller when needed
