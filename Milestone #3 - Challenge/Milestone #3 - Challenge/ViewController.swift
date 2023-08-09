@@ -61,9 +61,8 @@ class ViewController: UIViewController {
         view.backgroundColor = .black
         
         // Make all text white
-        livesRemainingLabel.textColor = .white
         wordTitle.textColor = .white
-
+        
         // Change title to white
         let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
@@ -72,6 +71,10 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addLetter))
         // Left button lets user start a new level
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(newGame))
+        
+        // Allow nav bar to be tapped
+        let navBarTapGesture = UITapGestureRecognizer(target: self, action: #selector(navBarTapped))
+        navigationController?.navigationBar.addGestureRecognizer(navBarTapGesture)
         
         // Get words from text file
         if let wordsURL = Bundle.main.url(forResource: "words", withExtension: "txt") {
@@ -164,7 +167,7 @@ class ViewController: UIViewController {
             present(winAC, animated: true)
         }
     }
-
+    
     
     // Main submit functionality
     // Makes sure letter passes all checks
@@ -222,5 +225,24 @@ class ViewController: UIViewController {
         gameOverAC.addAction(okAction)
         present(gameOverAC, animated: true)
     }
+    
+    // Give navbar touch functionality
+    // This is a little 'easter egg' to change view to toggle light/dark mode
+    @objc func navBarTapped(_ sender: UITapGestureRecognizer) {
+        if view.backgroundColor == .black {
+            // Change to light mode
+            view.backgroundColor = .white
+            wordTitle.textColor = .black
+            let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
+            navigationController?.navigationBar.titleTextAttributes = textAttributes
+        } else {
+            // Change to dark mode
+            view.backgroundColor = .black
+            wordTitle.textColor = .white
+            let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+            navigationController?.navigationBar.titleTextAttributes = textAttributes
+        }
+    }
+    
 }
 
