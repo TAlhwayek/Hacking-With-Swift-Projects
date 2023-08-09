@@ -85,7 +85,7 @@ class ViewController: UIViewController {
         }
         
         title = "Hang the Dead Man"
-        
+        // Start new game
         newGame()
     }
     
@@ -152,11 +152,11 @@ class ViewController: UIViewController {
                 found = true
             }
         }
-        
         return found
     }
     
     func userWins() {
+        // If words match
         if currentWord == hiddenWord {
             let winAC = UIAlertController(title: "Congratulations!", message: "You solved it!", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Try again?", style: .default) { _ in
@@ -214,6 +214,7 @@ class ViewController: UIViewController {
         present(errorAC, animated: true)
     }
     
+    // Show an alert controller when user loses
     func showGameOver() {
         // Reveal word
         hiddenWord = currentWord
