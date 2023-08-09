@@ -39,20 +39,17 @@ class ViewController: UIViewController {
                     livesRemainingLabel.textColor = color
                 }
             }
-            
-            
         }
     }
     
     // Current word to guess
     var currentWord: String = ""
-    // The word, but hidden
+    // The word, but hidden as question marks. Gets revealed whenever the user makes a correct guess
     var hiddenWord: String = "" {
         didSet {
             wordTitle.text = "\(hiddenWord)"
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +77,8 @@ class ViewController: UIViewController {
         if let wordsURL = Bundle.main.url(forResource: "words", withExtension: "txt") {
             if let wordsFromFile = try? String(contentsOf: wordsURL) {
                 // Get all words from document and ignore blank lines
-                words = wordsFromFile.components(separatedBy: "\n").filter { !$0.isEmpty }
+                // Also uppercase every word (just in case, but they're already all uppercased)
+                words = wordsFromFile.components(separatedBy: "\n").filter { !$0.isEmpty }.map { $0.uppercased() }
             }
         }
         
@@ -98,10 +96,6 @@ class ViewController: UIViewController {
         currentWord = words.randomElement()!
         // Initialize hidden word and use that in the game
         hiddenWord = String(repeating: "?", count: currentWord.count)
-        
-        // DEBUGGING REMEMBER TO REMOVE
-        print(currentWord)
-        print(hiddenWord)
     }
     
     // Let user add letter
@@ -167,7 +161,6 @@ class ViewController: UIViewController {
             present(winAC, animated: true)
         }
     }
-    
     
     // Main submit functionality
     // Makes sure letter passes all checks
