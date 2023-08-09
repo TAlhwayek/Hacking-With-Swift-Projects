@@ -17,8 +17,6 @@ class ViewController: UIViewController {
     var words = [String]()
     // Array to store used letters
     var usedLetters = [String]()
-    // Count wrong answers
-    var wrongAnswerCount = 0
     
     // Change color of livesRemainingLabel based on lives left
     var colors = [".red", ".red", ".orange", ".yellow", ".yellow", ".green", ".green"]
@@ -30,13 +28,19 @@ class ViewController: UIViewController {
         ".green": UIColor.green
     ]
     // How many lives the user still has
-    var livesRemaining = 2 {
+    var livesRemaining = 7 {
         didSet {
             livesRemainingLabel.text = "Lives remaining: \(livesRemaining)"
-            let colorString = colors[livesRemaining - 1]
-            if let color = colorMapping[colorString] {
-                livesRemainingLabel.textColor = color
+            
+            // Simple fix to avoid app crashing when lives remaining = 0
+            if livesRemaining > 0 {
+                let colorString = colors[livesRemaining - 1]
+                if let color = colorMapping[colorString] {
+                    livesRemainingLabel.textColor = color
+                }
             }
+            
+            
         }
     }
     
@@ -52,6 +56,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .lightGray
         
         // Right button lets user enter letter
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addLetter))
@@ -98,7 +104,8 @@ class ViewController: UIViewController {
             // Get letter
             guard let submittedLetter = wordAC?.textFields?[0].text else { return }
             // Submit letter
-            self?.submit(submittedLetter)
+            let uppercaseLetter = submittedLetter.uppercased()
+            self?.submit(uppercaseLetter)
         }
         
         wordAC.addAction(submitAction)
@@ -126,8 +133,13 @@ class ViewController: UIViewController {
         // Then replace position in hiddenWord
         
         if let index = currentWord.firstIndex(of: Character(letter)) {
-            
+            hiddenWord.replaceSubrange(index...index, with: letter)
+            return true
+        } else {
+            return false
         }
+        
+        
     }
     
     // Main submit functionality
@@ -148,13 +160,7 @@ class ViewController: UIViewController {
                         
                         // Check if game over
                         if livesRemaining == 0 {
-                            let gameOverAC = UIAlertController(title: "Game Over", message: "You ran out of lives", preferredStyle: .alert)
-                            let okAction = UIAlertAction(title: "Try again?", style: .default) { _ in
-                                // Start new game
-                                self.newGame()
-                            }
-                            gameOverAC.addAction(okAction)
-                            present(gameOverAC, animated: true)
+                            showGameOver()
                         } else {
                             showErrorAC(title: "Wrong Answer", message: "")
                         }
@@ -169,6 +175,8 @@ class ViewController: UIViewController {
             showErrorAC(title: "Invalid input", message: "Please input only ONE letter")
         }
         
+        usedLetters.append(letter)
+        
         
        
     }
@@ -179,6 +187,16 @@ class ViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default)
         errorAC.addAction(okAction)
         present(errorAC, animated: true)
+    }
+    
+    func showGameOver() {
+        let gameOverAC = UIAlertController(title: "Game Over", message: "You ran out of lives", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Try again?", style: .default) { _ in
+            // Start new game
+            self.newGame()
+        }
+        gameOverAC.addAction(okAction)
+        present(gameOverAC, animated: true)
     }
 }
 
