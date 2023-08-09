@@ -212,6 +212,8 @@ class ViewController: UIViewController {
     }
     
     func showGameOver() {
+        // Reveal word
+        hiddenWord = currentWord
         let gameOverAC = UIAlertController(title: "Game Over", message: "You ran out of lives", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Try again?", style: .default) { _ in
             // Start new game
