@@ -38,10 +38,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate{
         }
     }
     
+    // Scan for beacons
     func startScanning() {
         // Known good UUID
         let uuid = UUID(uuidString: "5A4BCFCE-174E-4BAC-A814-092E77F6B7E5")!
         let beaconRegion = CLBeaconRegion(uuid: uuid, major: 123, minor: 456, identifier: "MyBeacon")
+        
+        locationManager?.startMonitoring(for: beaconRegion)
+        locationManager?.startRangingBeacons(in: beaconRegion)
     }
 }
 
