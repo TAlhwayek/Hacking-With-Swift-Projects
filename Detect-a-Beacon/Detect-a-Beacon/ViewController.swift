@@ -19,12 +19,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate{
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         // Request permission to read location
+        // Non-blocking call
         locationManager?.requestAlwaysAuthorization()
         
         view.backgroundColor = .gray
         
     }
 
-
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways {
+            // Can we monitor beacons or not?
+            if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
+                // Check if we can get range of beacons
+                if CLLocationManager.isRangingAvailable() {
+                    
+                }
+            }
+        }
+    }
+    
+    func startScanning() {
+        // Known good UUID
+        let uuid = UUID(uuidString: "5A4BCFCE-174E-4BAC-A814-092E77F6B7E5")!
+        let beaconRegion = CLBeaconRegion(uuid: uuid, major: 123, minor: 456, identifier: "MyBeacon")
+    }
 }
 
