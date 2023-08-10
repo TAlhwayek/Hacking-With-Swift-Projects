@@ -13,6 +13,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate{
     @IBOutlet var distanceReading: UILabel!
     var locationManager: CLLocationManager?
     
+    // Bool for challenge #1
+    var foundBeacon: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -74,6 +77,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate{
     
     // Get location of beacon
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        // Challenge #1
+        if !foundBeacon {
+            let ac = UIAlertController(title: "Beacon detected", message: "Congratulations on detecting your first beacon!", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            ac.addAction(okAction)
+            present(ac, animated: true)
+            foundBeacon = true
+        }
+        
         if let beacon = beacons.first {
             update(distance: beacon.proximity)
         } else {
