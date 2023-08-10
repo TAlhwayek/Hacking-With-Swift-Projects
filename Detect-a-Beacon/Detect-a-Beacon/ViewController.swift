@@ -32,7 +32,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate{
             if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
                 // Check if we can get range of beacons
                 if CLLocationManager.isRangingAvailable() {
-                    
+                    startScanning()
                 }
             }
         }
