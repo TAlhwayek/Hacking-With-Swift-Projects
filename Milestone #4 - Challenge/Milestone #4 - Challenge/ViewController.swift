@@ -19,6 +19,14 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
         
         // Add button to let user add a photos
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPhoto))
+        
+        // Load data
+        let defaults = UserDefaults.standard
+        if let savedPictures = defaults.object(forKey: "pictures") as? Data {
+            if let decodedPictures = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedPictures) as? [Memory] {
+                pictures = decodedPictures
+            }
+        }
 
     }
     
@@ -71,6 +79,7 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
             guard let caption = captionAC?.textFields?[0].text else { return }
             self?.pictures.append(Memory(image: imageName, caption: caption))
             self?.tableView.reloadData()
+            self?.save()
         }
         
         captionAC.addAction(submitAction)
@@ -116,6 +125,14 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
         cameraAC.addAction(galleryAction)
         cameraAC.addAction(cancelAction)
         present(cameraAC, animated: true)
+    }
+    
+    // Save user's data
+    func save() {
+        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: pictures, requiringSecureCoding: false) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "pictures")
+        }
     }
 }
 
