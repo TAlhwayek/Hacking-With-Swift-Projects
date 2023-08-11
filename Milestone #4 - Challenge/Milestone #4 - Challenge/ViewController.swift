@@ -53,17 +53,16 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let detailVC = storyboard?.instantiateViewController(withIdentifier: "Details") as? DetailViewController {
             let memory = pictures[indexPath.row] // Get the Memory object at the selected index
-            
+            // Send data to detailVC and present
             detailVC.selectedImage = memory.image
             detailVC.imageCaption = memory.caption
-            
             navigationController?.pushViewController(detailVC, animated: true)
         }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // When image is chosen
         guard let image = info[.editedImage] as? UIImage else { return }
-        
         let imageName = UUID().uuidString
         let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
         
