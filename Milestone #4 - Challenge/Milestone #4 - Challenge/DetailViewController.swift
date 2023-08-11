@@ -19,6 +19,9 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Set background color to mint
+        view.backgroundColor = UIColor(red: 0.96, green: 1.0, blue: 0.98, alpha: 0.96)
+        
         if let imageName = selectedImage {
             let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
             imageView.image = UIImage(contentsOfFile: imagePath.path)

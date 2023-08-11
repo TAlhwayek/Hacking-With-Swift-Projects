@@ -15,6 +15,9 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set background color to a very light mint
+        view.backgroundColor = UIColor(red: 0.96, green: 1.0, blue: 0.98, alpha: 0.96)
+        // Set title (idk what to put lol)
         title = "Memories"
         
         // Add button to let user add a photos
@@ -42,6 +45,7 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
         let memory = pictures[indexPath.row]
         // Set the caption of the Memory object as the text of the cell's label
         cell.textLabel?.text = memory.caption
+        //cell.backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 0.8)
         return cell
     }
 
@@ -132,6 +136,28 @@ class ViewController: UITableViewController, UIImagePickerControllerDelegate, UI
         if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: pictures, requiringSecureCoding: false) {
             let defaults = UserDefaults.standard
             defaults.set(savedData, forKey: "pictures")
+        }
+    }
+    
+    // Swipe to delete entry
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let memory = pictures[indexPath.row]
+            
+            // Remove the image file from the documents directory to avoid wasting space
+            let imagePath = getDocumentsDirectory().appendingPathComponent(memory.image)
+            do {
+                try FileManager.default.removeItem(at: imagePath)
+            } catch {
+                print("Error deleting image: \(error)")
+            }
+            
+            // Remove the Memory object from the array and the table view
+            pictures.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            // Save the updated array
+            save()
         }
     }
 }

@@ -26,7 +26,4 @@ class Memory: NSObject, NSCoding {
         coder.encode(image, forKey: "image")
         coder.encode(caption, forKey: "caption")
     }
-    
-
-    
 }
