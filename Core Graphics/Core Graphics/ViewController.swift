@@ -241,11 +241,8 @@ class ViewController: UIViewController {
             ctx.cgContext.drawPath(using: .fill)
             
             // Mouth
-            ctx.cgContext.translateBy(x: 256, y: 300)
-            var length: CGFloat = 150
-            ctx.cgContext.move(to: CGPoint(x: length, y: 0))
-            ctx.cgContext.rotate(by: .pi)
-            ctx.cgContext.addLine(to: CGPoint(x: length, y: 0))
+            ctx.cgContext.move(to: CGPoint(x: 100, y: 310))
+            ctx.cgContext.addLine(to: CGPoint(x: 425, y: 310))
             ctx.cgContext.setStrokeColor(UIColor.brown.cgColor)
             ctx.cgContext.strokePath()
         }
