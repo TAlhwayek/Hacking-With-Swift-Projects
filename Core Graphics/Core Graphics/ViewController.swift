@@ -254,6 +254,62 @@ class ViewController: UIViewController {
         imageView.image = image
     }
     
+    // Challenge #2
+    // Draw TWIN on the canvas
+    func drawTwin() {
+        // Create renderer
+        // This exposes us to context (the canvas)
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
+        
+        // Image with the result of our drawing
+        // ctx = context
+        let image = renderer.image { ctx in
+            // Line specs
+            ctx.cgContext.setStrokeColor(UIColor.blue.cgColor)
+            ctx.cgContext.setLineWidth(5)
+            
+            // Letter T
+            ctx.cgContext.move(to: CGPoint(x: 50, y: 128))
+            ctx.cgContext.addLine(to: CGPoint(x: 100, y: 128))
+            ctx.cgContext.move(to: CGPoint(x: 75, y: 128))
+            ctx.cgContext.addLine(to: CGPoint(x: 75, y: 180))
+            
+            // Letter W
+            ctx.cgContext.move(to: CGPoint(x: 125, y: 128))
+            ctx.cgContext.addLine(to: CGPoint(x: 140, y: 175))
+            ctx.cgContext.addLine(to: CGPoint(x: 155, y: 135))
+            ctx.cgContext.addLine(to: CGPoint(x: 170, y: 175))
+            ctx.cgContext.addLine(to: CGPoint(x: 185, y: 128))
+            
+            // Letter I
+            ctx.cgContext.move(to: CGPoint(x: 210, y: 128))
+            ctx.cgContext.addLine(to: CGPoint(x: 260, y: 128))
+            ctx.cgContext.move(to: CGPoint(x: 235, y: 128))
+            ctx.cgContext.addLine(to: CGPoint(x: 235, y: 180))
+            ctx.cgContext.move(to: CGPoint(x: 210, y: 180))
+            ctx.cgContext.addLine(to: CGPoint(x: 260, y: 180))
+            
+            // Letter N
+            ctx.cgContext.move(to: CGPoint(x: 285, y: 185))
+            ctx.cgContext.addLine(to: CGPoint(x: 285, y: 132))
+            ctx.cgContext.addLine(to: CGPoint(x: 320, y: 180))
+            ctx.cgContext.addLine(to: CGPoint(x: 320, y: 125))
+            
+            
+            
+            
+            
+           
+            ctx.cgContext.strokePath()
+            
+        }
+        
+        // Display the image
+        imageView.image = image
+    }
+    
+    
+    
     
     
     
@@ -261,7 +317,7 @@ class ViewController: UIViewController {
     @IBAction func redrawTapped(_ sender: Any) {
         currentDrawType += 1
         
-        if currentDrawType > 6 {
+        if currentDrawType > 7 {
             currentDrawType = 0
         }
         
@@ -286,6 +342,9 @@ class ViewController: UIViewController {
             
         case 6:
             drawEmoji()
+            
+        case 7:
+            drawTwin()
             
         default:
             break
