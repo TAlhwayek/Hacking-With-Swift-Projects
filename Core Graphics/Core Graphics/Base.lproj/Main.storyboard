@@ -1,24 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22152" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="ipad10_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22127"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Core_Graphics" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x1r-Nl-rIs">
+                                <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ze0-De-2xW">
+                                <rect key="frame" x="369" y="1125" width="82" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Redraw"/>
+                                <connections>
+                                    <action selector="redrawTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m9h-1q-cCB"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="x1r-Nl-rIs" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-24" id="EaL-W9-6cq"/>
+                            <constraint firstItem="x1r-Nl-rIs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HO8-7h-2rR"/>
+                            <constraint firstItem="Ze0-De-2xW" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="JSG-fQ-ZN0"/>
+                            <constraint firstItem="Ze0-De-2xW" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="XXc-OI-vEm"/>
+                            <constraint firstItem="x1r-Nl-rIs" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="pxQ-ur-Y7s"/>
+                            <constraint firstItem="x1r-Nl-rIs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="scb-jr-Ur3"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="x1r-Nl-rIs" id="9xw-9e-tCr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="131.70731707317074" y="-23.389830508474578"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
