@@ -14,6 +14,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Secret title that keeps nosey people away 👀
+        title = "Nothing to see here"
+        
         // Handle screen moving with keyboard
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -21,9 +24,33 @@ class ViewController: UIViewController {
     }
 
     @IBAction func authenticateTapped(_ sender: Any) {
-    
+        secret.isHidden = false
     }
     
+    // Unlock the message
+    func unlockSecretMessage() {
+        secret.isHidden = false
+        title = "Secret stuff"
+        // Load text using keychain
+        secret.text = KeychainWrapper.standard.string(forKey: "SecretMessage") ?? ""
+    }
+    
+    // Save the message
+    func saveSecretMessage() {
+        // Make sure that secret is visible
+        guard secret.isHidden == false else { return }
+        
+        // Save using keychain
+        KeychainWrapper.standard.set(secret.text, forKey: "SecretMessage")
+        // Hide text editor
+        secret.resignFirstResponder()
+        // Hide text
+        secret.isHidden = true
+        // Set title back to what it was
+        title = "Nothing to see here"
+    }
+    
+    // Func that fixes keyboard issues when dealing with text
     @objc func adjustForKeyboard(notification: Notification) {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         
