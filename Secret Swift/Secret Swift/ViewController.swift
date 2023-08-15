@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         // Save secret message when user leaves the app
         notificationCenter.addObserver(self, selector: #selector(saveSecretMessage), name: UIApplication.willResignActiveNotification, object: nil)
+        
     }
 
     @IBAction func authenticateTapped(_ sender: Any) {
@@ -36,14 +37,16 @@ class ViewController: UIViewController {
             let reason = "Identify yourself!"
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, authenticationError in
+                // Force biometric to use main thread
                 DispatchQueue.main.async {
                     if success {
                         self?.unlockSecretMessage()
                     } else {
                         // Present alert if could not verify
-                        let ac = UIAlertController(title: "Authentication failed", message: "You could not be verified. Please try again.", preferredStyle: .alert)
-                        ac.addAction(UIAlertAction(title: "OK", style: .default))
-                        self?.present(ac, animated: true)
+                        // let ac = UIAlertController(title: "Authentication failed", message: "You could not be verified. Please try again.", preferredStyle: .alert)
+                        // ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        // self?.present(ac, animated: true)
+                        self?.usePassword()
                     }
                 }
             }
@@ -62,6 +65,10 @@ class ViewController: UIViewController {
         title = "Secret stuff"
         // Load text using keychain
         secret.text = KeychainWrapper.standard.string(forKey: "SecretMessage") ?? ""
+        
+        // Challenge #1
+        // Add a button that locks the app
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(saveSecretMessage))
     }
     
     // Save the message
@@ -77,6 +84,9 @@ class ViewController: UIViewController {
         secret.isHidden = true
         // Set title back to what it was
         title = "Nothing to see here"
+        
+        // Remove right bar button when app is locked
+        navigationItem.rightBarButtonItem = nil
     }
     
     // Func that fixes keyboard issues when dealing with text
@@ -100,5 +110,33 @@ class ViewController: UIViewController {
         secret.scrollRangeToVisible(selectedRange)
     }
     
+    // Challenge #2
+    // Use password as fallback for biometrics
+    func usePassword() {
+        let passwordAC = UIAlertController(title: "Enter password", message: nil, preferredStyle: .alert)
+        passwordAC.addTextField()
+        
+        let authenticationAction = UIAlertAction(title: "Authenticate", style: .default) { [weak self, weak passwordAC] _ in
+            // Get text from textfield
+            guard let password = passwordAC?.textFields?[0].text else { return }
+            self?.submit(password)
+        }
+        passwordAC.addAction(authenticationAction)
+        present(passwordAC, animated: true)
+    }
+    
+    func submit(_ password: String) {
+        if password == KeychainWrapper.standard.string(forKey: "Password") {
+            unlockSecretMessage()
+        } else {
+            let ac = UIAlertController(title: "Incorrect password", message: "Please try again", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+    }
 }
+
+// TODO:
+// Need to add a way to add a password
+// Also fix textfield to show "password" characters (those black circles)
 
