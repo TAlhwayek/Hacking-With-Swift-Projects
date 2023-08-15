@@ -5,6 +5,7 @@
 //  Created by Tony Alhwayek on 8/13/23.
 //
 
+import LocalAuthentication
 import UIKit
 
 class ViewController: UIViewController {
@@ -26,7 +27,33 @@ class ViewController: UIViewController {
     }
 
     @IBAction func authenticateTapped(_ sender: Any) {
-        unlockSecretMessage()
+        let context = LAContext()
+        // Obj-C form of an error
+        var error: NSError!
+        
+        // If we can use biometric authentication
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Identify yourself!"
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, authenticationError in
+                DispatchQueue.main.async {
+                    if success {
+                        self?.unlockSecretMessage()
+                    } else {
+                        // Present alert if could not verify
+                        let ac = UIAlertController(title: "Authentication failed", message: "You could not be verified. Please try again.", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "OK", style: .default))
+                        self?.present(ac, animated: true)
+                    }
+                }
+            }
+        } else {
+            // No biometric sensors available
+            let ac = UIAlertController(title: "Biometric sensor unavailable", message: "Your device is not configured for biometric authentication", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+        
     }
     
     // Unlock the message
