@@ -9,8 +9,12 @@ import LocalAuthentication
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet var secret: UITextView!
+    
+    // For challenge #2
+    // Allow user to set password on first login
+    var passwordSet = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +29,19 @@ class ViewController: UIViewController {
         // Save secret message when user leaves the app
         notificationCenter.addObserver(self, selector: #selector(saveSecretMessage), name: UIApplication.willResignActiveNotification, object: nil)
         
+        authenticateUser()
+        
     }
-
+    
+    // Authentication methods
+    // When authenticate button is tapped
     @IBAction func authenticateTapped(_ sender: Any) {
+        authenticateUser()
+    }
+    
+    // Added my own function to unlock the app when it is opened.
+    // The authenticate button is still there for when the user manually locks the app.
+    func authenticateUser() {
         let context = LAContext()
         // Obj-C form of an error
         var error: NSError!
@@ -42,11 +56,10 @@ class ViewController: UIViewController {
                     if success {
                         self?.unlockSecretMessage()
                     } else {
-                        // Present alert if could not verify
-                        // let ac = UIAlertController(title: "Authentication failed", message: "You could not be verified. Please try again.", preferredStyle: .alert)
-                        // ac.addAction(UIAlertAction(title: "OK", style: .default))
-                        // self?.present(ac, animated: true)
-                        self?.usePassword()
+                        // Only ask for password if password was set
+                        if self?.passwordSet == true {
+                            self?.usePassword()
+                        }
                     }
                 }
             }
@@ -56,9 +69,9 @@ class ViewController: UIViewController {
             ac.addAction(UIAlertAction(title: "OK", style: .default))
             present(ac, animated: true)
         }
-        
     }
     
+    // Message saving and loading
     // Unlock the message
     func unlockSecretMessage() {
         secret.isHidden = false
@@ -68,7 +81,9 @@ class ViewController: UIViewController {
         
         // Challenge #1
         // Add a button that locks the app
+        // Only visible when app is unlocked
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(saveSecretMessage))
+        enrollUserPassword()
     }
     
     // Save the message
@@ -89,6 +104,58 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItem = nil
     }
     
+    // Challenge #2
+    // Use password as fallback for biometrics
+    func usePassword() {
+        let passwordAC = UIAlertController(title: "Enter password", message: nil, preferredStyle: .alert)
+        passwordAC.addTextField { textField in
+            // Make text field secure
+            textField.isSecureTextEntry = true
+        }
+        
+        let authenticationAction = UIAlertAction(title: "Authenticate", style: .default) { [weak self, weak passwordAC] _ in
+            // Get text from textfield
+            guard let password = passwordAC?.textFields?[0].text else { return }
+            self?.submit(password)
+        }
+        passwordAC.addAction(authenticationAction)
+        present(passwordAC, animated: true)
+    }
+    
+    // Submit password
+    // Used in usePassword()
+    func submit(_ password: String) {
+        if password == KeychainWrapper.standard.string(forKey: "Password") {
+            unlockSecretMessage()
+        } else {
+            let ac = UIAlertController(title: "Incorrect password", message: "Please try again", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+    }
+    
+    // Enrolling user's password
+    // Should only be presented once
+    func enrollUserPassword() {
+        print("ASKING FOR PASSWORD")
+        if !passwordSet {
+            print("NO PASSWORD SET")
+            let passwordAC = UIAlertController(title: "Set a password", message: "A password is used in case you cannot authenticate using your biometric sensor.", preferredStyle: .alert)
+            passwordAC.addTextField()
+            
+            let submitAction = UIAlertAction(title: "Save password", style: .default) { [weak self, weak passwordAC] _ in
+                // Get text from textfield
+                guard let password = passwordAC?.textFields?[0].text else { return }
+                KeychainWrapper.standard.set(password, forKey: "Password")
+                self?.passwordSet = true
+            }
+            passwordAC.addAction(submitAction)
+            present(passwordAC, animated: true)
+            
+        }
+    }
+    
+    // Keyboard fixing
     // Func that fixes keyboard issues when dealing with text
     @objc func adjustForKeyboard(notification: Notification) {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
@@ -109,34 +176,5 @@ class ViewController: UIViewController {
         let selectedRange = secret.selectedRange
         secret.scrollRangeToVisible(selectedRange)
     }
-    
-    // Challenge #2
-    // Use password as fallback for biometrics
-    func usePassword() {
-        let passwordAC = UIAlertController(title: "Enter password", message: nil, preferredStyle: .alert)
-        passwordAC.addTextField()
-        
-        let authenticationAction = UIAlertAction(title: "Authenticate", style: .default) { [weak self, weak passwordAC] _ in
-            // Get text from textfield
-            guard let password = passwordAC?.textFields?[0].text else { return }
-            self?.submit(password)
-        }
-        passwordAC.addAction(authenticationAction)
-        present(passwordAC, animated: true)
-    }
-    
-    func submit(_ password: String) {
-        if password == KeychainWrapper.standard.string(forKey: "Password") {
-            unlockSecretMessage()
-        } else {
-            let ac = UIAlertController(title: "Incorrect password", message: "Please try again", preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
-            present(ac, animated: true)
-        }
-    }
 }
-
-// TODO:
-// Need to add a way to add a password
-// Also fix textfield to show "password" characters (those black circles)
 
