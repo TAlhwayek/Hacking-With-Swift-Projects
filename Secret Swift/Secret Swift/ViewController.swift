@@ -21,10 +21,12 @@ class ViewController: UIViewController {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        // Save secret message when user leaves the app
+        notificationCenter.addObserver(self, selector: #selector(saveSecretMessage), name: UIApplication.willResignActiveNotification, object: nil)
     }
 
     @IBAction func authenticateTapped(_ sender: Any) {
-        secret.isHidden = false
+        unlockSecretMessage()
     }
     
     // Unlock the message
@@ -36,7 +38,7 @@ class ViewController: UIViewController {
     }
     
     // Save the message
-    func saveSecretMessage() {
+    @objc func saveSecretMessage() {
         // Make sure that secret is visible
         guard secret.isHidden == false else { return }
         
