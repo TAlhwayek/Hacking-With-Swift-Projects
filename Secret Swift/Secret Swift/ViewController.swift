@@ -140,9 +140,7 @@ class ViewController: UIViewController {
     // Enrolling user's password
     // Should only be presented once
     func enrollUserPassword() {
-        print("ASKING FOR PASSWORD")
         if !passwordSet {
-            print("NO PASSWORD SET")
             let passwordAC = UIAlertController(title: "Set a password", message: "A password is used in case you cannot authenticate using your biometric sensor.", preferredStyle: .alert)
             passwordAC.addTextField()
             
@@ -150,7 +148,10 @@ class ViewController: UIViewController {
                 // Get text from textfield
                 guard let password = passwordAC?.textFields?[0].text else { return }
                 // Make sure password isn't blank
-                if password.count == 0 {
+                // Remove whitespaces for checking
+                // But whitespaces remain part of the set password
+                let whitespace = CharacterSet.whitespacesAndNewlines
+                if password.trimmingCharacters(in: whitespace).isEmpty {
                     let ac = UIAlertController(title: "Password cannot be blank", message: nil, preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
                         // Show prompt again
@@ -167,7 +168,6 @@ class ViewController: UIViewController {
             }
             passwordAC.addAction(submitAction)
             present(passwordAC, animated: true)
-            
         }
     }
     
@@ -181,7 +181,10 @@ class ViewController: UIViewController {
             // Get text from textfield
             guard let password = passwordAC?.textFields?[0].text else { return }
             // Make sure password isn't blank
-            if password.count == 0 {
+            // Remove whitespaces for checking
+            // But whitespaces remain part of the set password
+            let whitespace = CharacterSet.whitespacesAndNewlines
+            if password.trimmingCharacters(in: whitespace).isEmpty {
                 let ac = UIAlertController(title: "Password cannot be blank", message: nil, preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
                     // Show prompt again
