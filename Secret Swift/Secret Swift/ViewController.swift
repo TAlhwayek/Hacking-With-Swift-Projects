@@ -83,6 +83,9 @@ class ViewController: UIViewController {
         // Add a button that locks the app
         // Only visible when app is unlocked
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(saveSecretMessage))
+        // Self-challenge
+        // Allow user to change password
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit password", style: .plain, target: self, action: #selector(changePassword))
         enrollUserPassword()
     }
     
@@ -146,13 +149,54 @@ class ViewController: UIViewController {
             let submitAction = UIAlertAction(title: "Save password", style: .default) { [weak self, weak passwordAC] _ in
                 // Get text from textfield
                 guard let password = passwordAC?.textFields?[0].text else { return }
-                KeychainWrapper.standard.set(password, forKey: "Password")
-                self?.passwordSet = true
+                // Make sure password isn't blank
+                if password.count == 0 {
+                    let ac = UIAlertController(title: "Password cannot be blank", message: nil, preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                        // Show prompt again
+                        self?.enrollUserPassword()
+                    }
+                    ac.addAction(okAction)
+                    self?.present(ac, animated: true)
+                } else {
+                    // Set password
+                    KeychainWrapper.standard.set(password, forKey: "Password")
+                    self?.passwordSet = true
+                }
+                
             }
             passwordAC.addAction(submitAction)
             present(passwordAC, animated: true)
             
         }
+    }
+    
+    // For self-challenge
+    // Allows the user to change password
+    @objc func changePassword() {
+        let passwordAC = UIAlertController(title: "Change your password", message: nil, preferredStyle: .alert)
+        passwordAC.addTextField()
+        
+        let submitAction = UIAlertAction(title: "Save password", style: .default) { [weak passwordAC] _ in
+            // Get text from textfield
+            guard let password = passwordAC?.textFields?[0].text else { return }
+            // Make sure password isn't blank
+            if password.count == 0 {
+                let ac = UIAlertController(title: "Password cannot be blank", message: nil, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                    // Show prompt again
+                    self?.changePassword()
+                }
+                ac.addAction(okAction)
+                self.present(ac, animated: true)
+            } else {
+                // Change password
+                KeychainWrapper.standard.set(password, forKey: "Password")
+            }
+        }
+        passwordAC.addAction(submitAction)
+        passwordAC.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(passwordAC, animated: true)
     }
     
     // Keyboard fixing
