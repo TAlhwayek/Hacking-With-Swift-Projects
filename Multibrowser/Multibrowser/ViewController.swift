@@ -24,6 +24,11 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWebView))
         let delete = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteWebView))
         navigationItem.rightBarButtonItems = [add, delete]
+        
+        // Center address bar text
+        addressBar.textAlignment = .center
+        // Always start with an open tab
+        addWebView()
     }
     
     // Set title of the app
