@@ -55,7 +55,14 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
     // When user presses return, load new website
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if let webView = activeWebView, let address = addressBar.text {
-            if let url = URL(string: "https://www.\(address)") {
+            if var url = URL(string: address) {
+                // Check if url is already complete
+                if url.absoluteString.hasPrefix("https://www.") {
+                    webView.load(URLRequest(url: url))
+                } else {
+                    // Else, complete the URL
+                    url = URL(string: "https://www.\(address)")!
+                }
                 webView.load(URLRequest(url: url))
             }
         }
