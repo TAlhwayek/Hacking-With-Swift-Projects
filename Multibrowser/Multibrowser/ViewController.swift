@@ -8,10 +8,12 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate {
+class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet var addressBar: UITextField!
     @IBOutlet var stackView: UIStackView!
+    
+    weak var activeWebView: WKWebView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,13 +39,78 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
         stackView.addArrangedSubview(webView)
         
         // Casual self-plug
-        let url = URL(string: "https://www.\(addressBar.text ?? "https://github.com/TAlhwayek")")!
+        let url = URL(string: "https://github.com/TAlhwayek")!
         // Load specified URL
         webView.load(URLRequest(url: url))
+        
+        // Highlight selected webView
+        webView.layer.borderColor = UIColor.systemBlue.cgColor
+        selectWebView(webView)
+        
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(webViewTapped))
+        recognizer.delegate = self
+        webView.addGestureRecognizer(recognizer)
     }
     
-    @objc func deleteWebView() {
+    // When user presses return, load new website
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let webView = activeWebView, let address = addressBar.text {
+            if let url = URL(string: "https://www.\(address)") {
+                webView.load(URLRequest(url: url))
+            }
+        }
         
+        textField.resignFirstResponder()
+        return true
     }
+    
+    // Highlight borders of selected webview
+    func selectWebView(_ webView: WKWebView) {
+        for view in stackView.arrangedSubviews {
+            view.layer.borderWidth = 0
+        }
+        activeWebView = webView
+        webView.layer.borderWidth = 2
+    }
+    
+    // When a web view is tapped
+    @objc func webViewTapped(_ recognizer: UITapGestureRecognizer) {
+        if let selectedWebView = recognizer.view as? WKWebView {
+            selectWebView(selectedWebView)
+        }
+    }
+    
+    // Recognize tapped webView
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    // Delete selected webView
+    @objc func deleteWebView() {
+        if let webView = activeWebView {
+            if let index = stackView.arrangedSubviews.firstIndex(of: webView) {
+                // Remove and destroy webView (destroy = clear from memory)
+                webView.removeFromSuperview()
+                
+                if stackView.arrangedSubviews.count == 0 {
+                    setDefaultTitle()
+                } else {
+                    var currentIndex = Int(index)
+                    
+                    // Go back 1 in index to select current last webview if deleted webview was last one
+                    if currentIndex == stackView.arrangedSubviews.count {
+                        currentIndex = stackView.arrangedSubviews.count - 1
+                    }
+                    
+                    // Select the new last webview
+                    if let newSelectedWebView = stackView.arrangedSubviews[currentIndex] as? WKWebView {
+                        selectWebView(newSelectedWebView)
+                    }
+                }
+            }
+        }
+    }
+    
+    
 }
 
