@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 
 class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate {
-
+    
     @IBOutlet var addressBar: UITextField!
     @IBOutlet var stackView: UIStackView!
     
@@ -25,7 +25,7 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
         let delete = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteWebView))
         navigationItem.rightBarButtonItems = [add, delete]
     }
-
+    
     // Set title of the app
     func setDefaultTitle() {
         title = "Multibrowser"
@@ -71,6 +71,9 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
         }
         activeWebView = webView
         webView.layer.borderWidth = 2
+        
+        // Updates title and text in address bar when a different webView is selected
+        updateUI(for: webView)
     }
     
     // When a web view is tapped
@@ -111,6 +114,28 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
         }
     }
     
+    // Stack the webViews vertically if the app becomes too small (when multitasking with another open app)
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.horizontalSizeClass == .compact {
+            stackView.axis = .vertical
+        } else {
+            stackView.axis = .horizontal
+        }
+    }
     
+    // When webView finishes loading a web page
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        if webView == activeWebView {
+            updateUI(for: webView)
+        }
+    }
+    
+    // Update title and address bar text when a webView is selected
+    func updateUI(for webView: WKWebView) {
+        title = webView.title
+        addressBar.text = webView.url?.absoluteString ?? ""
+    }
+    
+
 }
 
