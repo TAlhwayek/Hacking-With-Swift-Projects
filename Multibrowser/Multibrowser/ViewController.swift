@@ -37,6 +37,12 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
     }
     
     @objc func addWebView() {
+        // Update title before the web page loads
+        // Idk if I should use the main thread, but it wouldn't work without it
+        DispatchQueue.main.async {
+            self.title = "Loading..."
+        }
+            
         // Create new webview
         let webView = WKWebView()
         webView.navigationDelegate = self
@@ -59,6 +65,10 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
     
     // When user presses return, load new website
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Loading text appears before web page loads
+        // When web page loads, title becomes title of web page
+        title = "Loading..."
+        
         if let webView = activeWebView, let address = addressBar.text {
             if var url = URL(string: address) {
                 // Check if url is already complete
@@ -147,7 +157,5 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
         title = webView.title
         addressBar.text = webView.url?.absoluteString ?? ""
     }
-    
-
 }
 
