@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WebKit
 
 class DetailViewController: UITableViewController {
     
@@ -58,6 +59,14 @@ class DetailViewController: UITableViewController {
     }
     
     @objc func openWiki() {
-        print("Go to wikipedia you lazy bum")
+        let webView = WKWebView()
+        if let url = URL(string: "https://www.wikipedia.com/wiki/\(countryInfo!.name)") {
+            print(url)
+            let request = URLRequest(url: url)
+            webView.load(request)
+            let wikiVC = UIViewController()
+            wikiVC.view = webView
+            navigationController?.pushViewController(wikiVC, animated: true)
+        }
     }
 }
