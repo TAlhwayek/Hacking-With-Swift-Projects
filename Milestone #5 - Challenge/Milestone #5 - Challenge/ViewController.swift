@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UITableViewController {
     
     var countries = [Country]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,9 +57,6 @@ class ViewController: UITableViewController {
             let jsonData = try Data(contentsOf: fileURL)
             // Decode the JSON data
             let decoder = JSONDecoder()
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy"
-            decoder.dateDecodingStrategy = .formatted(dateFormatter)
             countries = try decoder.decode([Country].self, from: jsonData)
             
             // Sort countries by name

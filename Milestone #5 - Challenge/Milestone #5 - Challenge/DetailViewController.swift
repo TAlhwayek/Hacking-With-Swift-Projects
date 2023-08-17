@@ -22,9 +22,12 @@ class DetailViewController: UITableViewController {
         super.viewDidLoad()
         countryInfo = Country(name: name!, capital: capital!, yearEstablished: yearEstablished!, population: population!, coordinates: coordinates!)
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Wiki", style: .plain, target: self, action: #selector(openWiki))
+        
         title = name
     }
     
+    // Fill up the table with the info about each country
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Country", for: indexPath)
         switch indexPath.row {
@@ -52,5 +55,9 @@ class DetailViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
+    }
+    
+    @objc func openWiki() {
+        print("Go to wikipedia you lazy bum")
     }
 }
