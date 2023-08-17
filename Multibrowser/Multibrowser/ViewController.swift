@@ -31,7 +31,7 @@ class ViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegat
         addWebView()
     }
     
-    // Set title of the app
+    // Set a generic nav bar title
     func setDefaultTitle() {
         title = "Multibrowser"
     }
