@@ -14,11 +14,13 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         title = "Country Facts"
+        loadCountries()
     }
     
     // Generate the needed number of rows
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return countries.count
     }
     
@@ -35,17 +37,38 @@ class ViewController: UITableViewController {
         if let detailVC = storyboard?.instantiateViewController(withIdentifier: "Details") as? DetailViewController {
             // Send all details to next view controller
             let country = countries[indexPath.row]
-            detailVC.flag = country.flag
             detailVC.name = country.name
             detailVC.capital = country.capital
             detailVC.population = country.population
             detailVC.yearEstablished = country.yearEstablished
             detailVC.coordinates = country.coordinates
+            navigationController?.pushViewController(detailVC, animated: true)
         }
     }
     
     // Populate countries array
-
-
+    func loadCountries() {
+        do {
+            // Load the JSON file's data
+            guard let fileURL = Bundle.main.url(forResource: "data", withExtension: "json") else {
+                fatalError("JSON file not found. Do you have the correct name?")
+            }
+            
+            let jsonData = try Data(contentsOf: fileURL)
+            // Decode the JSON data
+            let decoder = JSONDecoder()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy"
+            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+            countries = try decoder.decode([Country].self, from: jsonData)
+            
+            // Sort countries by name
+            countries.sort { $0.name < $1.name }
+            tableView.reloadData()
+            
+        } catch {
+            print("Error: \(error)")
+        }
+    }
 }
 

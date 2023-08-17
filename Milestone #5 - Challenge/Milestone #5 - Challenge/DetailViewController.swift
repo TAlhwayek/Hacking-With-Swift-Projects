@@ -9,16 +9,17 @@ import UIKit
 
 class DetailViewController: UITableViewController {
 
-    var flag: UIImage!
+    //var flag: UIImage!
     var name: String!
     var capital: String!
     var yearEstablished: Int!
     var population: String!
-    var coordinates: (Int, Int)!
+    var coordinates: Coordinates!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = name
         // Do any additional setup after loading the view.
     }
 

@@ -7,16 +7,19 @@
 
 import UIKit
 
-class Country: NSObject {
-    var flag: UIImage
+struct Coordinates: Codable {
+    let latitude: Double
+    let longitude: Double
+}
+
+class Country: NSObject, Codable {
     var name: String
     var capital: String
     var yearEstablished: Int
     var population: String
-    var coordinates: (Int, Int)
+    var coordinates: Coordinates
     
-    init(flag: UIImage, name: String, capital: String, yearEstablished: Int, population: String, coordinates: (Int, Int)) {
-        self.flag = flag
+    init(name: String, capital: String, yearEstablished: Int, population: String, coordinates: Coordinates) {
         self.name = name
         self.capital = capital
         self.yearEstablished = yearEstablished
