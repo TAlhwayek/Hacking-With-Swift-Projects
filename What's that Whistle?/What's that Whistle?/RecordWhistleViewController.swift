@@ -12,10 +12,12 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
     
     var stackView: UIStackView!
     
-    // Elements for recording
+    // Elements for recording and playback
     var recordButton: UIButton!
+    var playButton: UIButton!
     var recordingSession: AVAudioSession!
     var whistleRecorder: AVAudioRecorder!
+    var whistlePlayer: AVAudioPlayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,12 +72,24 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
     // If the user granted mic permission
     // Allow them to record
     func loadRecordingUI() {
+        // Add recording button
         recordButton = UIButton()
         recordButton.translatesAutoresizingMaskIntoConstraints = false
         recordButton.setTitle("Tap to Record", for: .normal)
         recordButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
         recordButton.addTarget(self, action: #selector(recordTapped), for: .touchUpInside)
         stackView.addArrangedSubview(recordButton)
+        
+        // Add play button
+        playButton = UIButton()
+        playButton.translatesAutoresizingMaskIntoConstraints = false
+        playButton.setTitle("Tap to Play", for: .normal)
+        // Hide button until needed
+        playButton.isHidden = true
+        playButton.alpha = 0
+        playButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title1)
+        playButton.addTarget(self, action: #selector(playTapped), for: .touchUpInside)
+        stackView.addArrangedSubview(playButton)
     }
     
     // If user denied mic permission
@@ -141,6 +155,16 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
         if success {
             // Ask if user wants to rewrite their recording
             recordButton.setTitle("Tap to re-record", for: .normal)
+            
+            // Reveal play button
+            if playButton.isHidden {
+                // Animate revealing the play button
+                UIView.animate(withDuration: 0.35, animations: { [unowned self] in
+                    self.playButton.isHidden = false
+                    self.playButton.alpha = 1
+                })
+            }
+            
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextTapped))
         } else {
             recordButton.setTitle("Tap to Record", for: .normal)
@@ -157,8 +181,31 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
         // If no recording session is already taking place
         if whistleRecorder == nil {
             startRecording()
+            
+            // Hide play button while recording
+            if !playButton.isHidden {
+                UIView.animate(withDuration: 0.35, animations: { [unowned self] in
+                    self.playButton.isHidden = true
+                    self.playButton.alpha = 0
+                })
+            }
         } else {
             finishRecording(success: true)
+        }
+    }
+    
+    // When play button is tapped
+    @objc func playTapped() {
+        let audioURL = RecordWhistleViewController.getWhistleURL()
+        
+        // Try playing the recorded audio
+        do {
+            whistlePlayer = try AVAudioPlayer(contentsOf: audioURL)
+            whistlePlayer.play()
+        } catch {
+            let failedAC = UIAlertController(title: "Playback failed", message: "There was a problem playing your whistle; please try re-recording.", preferredStyle: .alert)
+            failedAC.addAction(UIAlertAction(title: "OK", style: .default))
+            present(failedAC, animated: true)
         }
     }
     
