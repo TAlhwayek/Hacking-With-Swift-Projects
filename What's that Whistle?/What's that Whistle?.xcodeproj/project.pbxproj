@@ -15,6 +15,7 @@
 		9BC1F03B2A95AD1C00501883 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BC1F0392A95AD1C00501883 /* LaunchScreen.storyboard */; };
 		9BC1F0432A95AE8400501883 /* RecordWhistleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1F0422A95AE8400501883 /* RecordWhistleViewController.swift */; };
 		9BC1F0452A95BAE500501883 /* SelectGenreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1F0442A95BAE500501883 /* SelectGenreTableViewController.swift */; };
+		9BC1F0472A95BD5100501883 /* AddCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1F0462A95BD5100501883 /* AddCommentsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		9BC1F03C2A95AD1C00501883 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9BC1F0422A95AE8400501883 /* RecordWhistleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordWhistleViewController.swift; sourceTree = "<group>"; };
 		9BC1F0442A95BAE500501883 /* SelectGenreTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenreTableViewController.swift; sourceTree = "<group>"; };
+		9BC1F0462A95BD5100501883 /* AddCommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +46,7 @@
 		9BC1F0222A95AD1900501883 = {
 			isa = PBXGroup;
 			children = (
+				9BC1F0462A95BD5100501883 /* AddCommentsViewController.swift */,
 				9BC1F0442A95BAE500501883 /* SelectGenreTableViewController.swift */,
 				9BC1F02D2A95AD1900501883 /* What's that Whistle? */,
 				9BC1F02C2A95AD1900501883 /* Products */,
@@ -148,6 +151,7 @@
 				9BC1F02F2A95AD1900501883 /* AppDelegate.swift in Sources */,
 				9BC1F0432A95AE8400501883 /* RecordWhistleViewController.swift in Sources */,
 				9BC1F0452A95BAE500501883 /* SelectGenreTableViewController.swift in Sources */,
+				9BC1F0472A95BD5100501883 /* AddCommentsViewController.swift in Sources */,
 				9BC1F0312A95AD1900501883 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
