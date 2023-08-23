@@ -16,7 +16,9 @@ class AddCommentsViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+        title = "Comments"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Submit", style: .plain, target: self, action: #selector(submitTapped))
+        comments.text = placeholder
     }
     
     override func loadView() {
@@ -34,6 +36,27 @@ class AddCommentsViewController: UIViewController, UITextViewDelegate {
         comments.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         comments.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         comments.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    // When user taps submit
+    @objc func submitTapped() {
+        let submitVC = SubmitViewController()
+        submitVC.genre = genre
+        
+        if comments.text == placeholder {
+            submitVC.comments = ""
+        } else {
+            submitVC.comments = comments.text
+        }
+        
+        navigationController?.pushViewController(submitVC, animated: true)
+    }
+    
+    // Remove placeholder on tap
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == placeholder {
+            textView.text = ""
+        }
     }
 
 }
