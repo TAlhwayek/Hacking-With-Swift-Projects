@@ -209,8 +209,11 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
+    // When next button is tapped
+    // Ask user for genre
     @objc func nextTapped() {
-        
+        let genreVC = SelectGenreTableViewController()
+        navigationController?.pushViewController(genreVC, animated: true)
     }
     
     // If record did not finish successfully
