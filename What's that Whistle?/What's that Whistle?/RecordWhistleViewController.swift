@@ -165,4 +165,11 @@ class RecordWhistleViewController: UIViewController, AVAudioRecorderDelegate {
     @objc func nextTapped() {
         
     }
+    
+    // If record did not finish successfully
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        if !flag {
+            finishRecording(success: false)
+        }
+    }
 }

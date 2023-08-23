@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         title = "What's that Whistle?"
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addWhistle))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Home", style: .plain, target: nil, action: nil)
     }
 
     @objc func addWhistle() {
