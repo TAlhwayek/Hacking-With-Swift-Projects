@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B558F332A9717B400A166FA /* SubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B558F322A9717B400A166FA /* SubmitViewController.swift */; };
 		9BC1F02F2A95AD1900501883 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1F02E2A95AD1900501883 /* AppDelegate.swift */; };
 		9BC1F0312A95AD1900501883 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1F0302A95AD1900501883 /* SceneDelegate.swift */; };
 		9BC1F0332A95AD1900501883 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC1F0322A95AD1900501883 /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9B558F322A9717B400A166FA /* SubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitViewController.swift; sourceTree = "<group>"; };
 		9BC1F02B2A95AD1900501883 /* What's that Whistle?.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "What's that Whistle?.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BC1F02E2A95AD1900501883 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BC1F0302A95AD1900501883 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -46,6 +48,7 @@
 		9BC1F0222A95AD1900501883 = {
 			isa = PBXGroup;
 			children = (
+				9B558F322A9717B400A166FA /* SubmitViewController.swift */,
 				9BC1F0462A95BD5100501883 /* AddCommentsViewController.swift */,
 				9BC1F0442A95BAE500501883 /* SelectGenreTableViewController.swift */,
 				9BC1F02D2A95AD1900501883 /* What's that Whistle? */,
@@ -147,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B558F332A9717B400A166FA /* SubmitViewController.swift in Sources */,
 				9BC1F0332A95AD1900501883 /* ViewController.swift in Sources */,
 				9BC1F02F2A95AD1900501883 /* AppDelegate.swift in Sources */,
 				9BC1F0432A95AE8400501883 /* RecordWhistleViewController.swift in Sources */,
