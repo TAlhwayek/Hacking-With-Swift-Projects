@@ -16,22 +16,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="852" height="393"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view autoresizesSubviews="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q1j-Lm-OwJ">
+                            <view alpha="0.90000000000000002" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0s5-MF-0v6" customClass="GradientView" customModule="Psychic_Tester" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="852" height="393"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="topColor">
+                                        <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="bottomColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view autoresizesSubviews="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q1j-Lm-OwJ">
                                 <rect key="frame" x="186" y="36" width="480" height="320"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="q1j-Lm-OwJ" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="5YS-DD-O3K"/>
-                            <constraint firstItem="q1j-Lm-OwJ" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="89c-5L-xr6"/>
+                            <constraint firstAttribute="bottom" secondItem="0s5-MF-0v6" secondAttribute="bottom" id="2yK-uA-ofI"/>
+                            <constraint firstAttribute="trailing" secondItem="0s5-MF-0v6" secondAttribute="trailing" id="HXB-X6-Ctv"/>
+                            <constraint firstItem="0s5-MF-0v6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="lov-oo-Z1w"/>
+                            <constraint firstItem="0s5-MF-0v6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xJB-EW-pxM"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="cardContainer" destination="q1j-Lm-OwJ" id="wrS-ld-wHS"/>
+                        <outlet property="gradientView" destination="0s5-MF-0v6" id="95V-kj-ve7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="-27"/>
+            <point key="canvasLocation" x="131.69014084507043" y="-28.244274809160306"/>
         </scene>
     </scenes>
     <resources>

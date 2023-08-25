@@ -15,6 +15,7 @@
 		9B63F31C2A9873E3001E7B01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B63F31A2A9873E3001E7B01 /* LaunchScreen.storyboard */; };
 		9B63F3242A987426001E7B01 /* PhantomFromSpace.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9B63F3232A987426001E7B01 /* PhantomFromSpace.mp3 */; };
 		9B63F3262A9874F5001E7B01 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63F3252A9874F5001E7B01 /* CardViewController.swift */; };
+		9B63F3282A988714001E7B01 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B63F3272A988714001E7B01 /* GradientView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		9B63F31D2A9873E3001E7B01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B63F3232A987426001E7B01 /* PhantomFromSpace.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = PhantomFromSpace.mp3; sourceTree = "<group>"; };
 		9B63F3252A9874F5001E7B01 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
+		9B63F3272A988714001E7B01 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GradientView.swift; path = "Psychic Tester/GradientView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +46,7 @@
 		9B63F3032A9873E1001E7B01 = {
 			isa = PBXGroup;
 			children = (
+				9B63F3272A988714001E7B01 /* GradientView.swift */,
 				9B63F30E2A9873E1001E7B01 /* Psychic Tester */,
 				9B63F30D2A9873E1001E7B01 /* Products */,
 			);
@@ -147,6 +150,7 @@
 			files = (
 				9B63F3262A9874F5001E7B01 /* CardViewController.swift in Sources */,
 				9B63F3142A9873E1001E7B01 /* ViewController.swift in Sources */,
+				9B63F3282A988714001E7B01 /* GradientView.swift in Sources */,
 				9B63F3102A9873E1001E7B01 /* AppDelegate.swift in Sources */,
 				9B63F3122A9873E1001E7B01 /* SceneDelegate.swift in Sources */,
 			);
@@ -306,8 +310,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -334,8 +337,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
