@@ -92,6 +92,7 @@ class ViewController: UIViewController {
         }
     }
     
+    // Animate card tap
     func cardTapped(_ tapped: CardViewController) {
         guard view.isUserInteractionEnabled == true else { return }
         view.isUserInteractionEnabled = false
@@ -145,10 +146,12 @@ class ViewController: UIViewController {
         gradientView.layer.addSublayer(particleEmitter)
     }
     
+    // Play background music
     func playMusic() {
         if let musicURL = Bundle.main.url(forResource: "PhantomFromSpace", withExtension: "mp3") {
             if let audioPlayer = try? AVAudioPlayer(contentsOf: musicURL) {
                 music = audioPlayer
+                // Play music indefinitely
                 music.numberOfLoops = -1
                 music.play()
             }
