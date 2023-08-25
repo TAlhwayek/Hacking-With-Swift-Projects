@@ -13,8 +13,9 @@ var allCards = [CardViewController]()
 class ViewController: UIViewController {
     
     @IBOutlet var cardContainer: UIView!
-    
     @IBOutlet var gradientView: GradientView!
+    
+    var music: AVAudioPlayer!
     
     
     override func viewDidLoad() {
@@ -28,6 +29,8 @@ class ViewController: UIViewController {
         UIView.animate(withDuration: 20, delay: 0, options: [.allowUserInteraction, .autoreverse, .repeat], animations: {
             self.view.backgroundColor = .blue
         })
+        
+        playMusic()
     }
     
     @objc func loadCards() {
@@ -142,8 +145,15 @@ class ViewController: UIViewController {
         gradientView.layer.addSublayer(particleEmitter)
     }
     
-    
-    
+    func playMusic() {
+        if let musicURL = Bundle.main.url(forResource: "PhantomFromSpace", withExtension: "mp3") {
+            if let audioPlayer = try? AVAudioPlayer(contentsOf: musicURL) {
+                music = audioPlayer
+                music.numberOfLoops = -1
+                music.play()
+            }
+        }
+    }
     
 }
 
